@@ -108,8 +108,9 @@ pub enum StatType {
 }
 
 impl Stat {
-    pub fn from_value(value: i32) -> Self {
+    pub fn from_value(stat_type: StatType, value: i32) -> Self {
         Self {
+            stat_type,
             value,
             modifier: ((value - 10) as f64 / 2_f64).floor() as i32,
         }
