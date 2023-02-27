@@ -16,7 +16,7 @@ pub struct Creature {
     pub resistances: Vec<DamageType>,
     pub immunities: Vec<DamageType>,
     pub vulnerabilities: Vec<DamageType>,
-    pub condition_immunities: Vec<ConditionType>
+    pub condition_immunities: Vec<ConditionType>,
     pub skills: Vec<Skill>,
     pub senses: Vec<Sense>,
     pub languages: Vec<Language>,
@@ -82,18 +82,29 @@ impl Alignment {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Stats {
-    pub Strength: Stat,
-    pub Dexterity: Stat,
-    pub Constitution: Stat,
-    pub Intelligence: Stat,
-    pub Wisdom: Stat,
-    pub Charisma: Stat,
+    pub strength: Stat,
+    pub dexterity: Stat,
+    pub constitution: Stat,
+    pub intelligence: Stat,
+    pub wisdom: Stat,
+    pub charisma: Stat,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Stat {
+    pub stat_type: StatType,
     pub value: i32,
     pub modifier: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum StatType {
+    Strength,
+    Dexterity,
+    Constitution,
+    Intelligence,
+    Wisdom,
+    Charisma,
 }
 
 impl Stat {
@@ -117,12 +128,18 @@ impl Health {
                 die_count,
                 die_type,
                 extra,
-            }
+            },
         }
     }
 
     pub fn to_string(&self) -> String {
-        format!("{} ({}{} + {})", self.health.value(), self.health.die_count, self.health.die_type.to_string(), self.health.extra)
+        format!(
+            "{} ({}{} + {})",
+            self.health.value(),
+            self.health.die_count,
+            self.health.die_type.to_string(),
+            self.health.extra
+        )
     }
 }
 
@@ -134,7 +151,7 @@ pub struct DieStat {
 }
 
 impl DieStat {
-    pub fn value(&self) -> i32{
+    pub fn value(&self) -> i32 {
         (self.die_count as f64 * (self.die_type.to_f64() / 2_f64 + 0.5)).floor() as i32 + self.extra
     }
 }
@@ -262,7 +279,7 @@ pub enum Language {
     ThriKreen,
     Undercommon,
     Vedalken,
-    Zemnian
+    Zemnian,
 }
 
 impl Language {
@@ -275,7 +292,18 @@ impl Language {
     }
 }
 
+// TODO:
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Trait {
+pub struct Trait {}
 
-}
+// TODO:
+#[derive(Serialize, Deserialize, Debug)]
+pub enum DamageType {}
+
+// TODO:
+#[derive(Serialize, Deserialize, Debug)]
+pub enum ConditionType {}
+
+// TODO:
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Action {}
