@@ -31,7 +31,8 @@ pub enum AttributeType {
     ChallengeRating,
     RacialTraits,
     Description,
-    Actions,
+    Attack,
+    Lair,
     Other,
 }
 
@@ -74,7 +75,8 @@ pub enum Attribute {
     ChallengeRating { challenge_rating: String },
     RacialTrait { racial_traits: Vec<Trait> },
     Description { description: String },
-    Action { actions: Vec<Action> },
+    Attack { attacks: Vec<Attack> },
+    Lair { lair: Lair },
     Other { other: String },
 }
 
@@ -420,7 +422,7 @@ impl fmt::Display for ConditionType {
 
 // TODO:
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub struct Action {
+pub struct Attack {
     pub name: String,
     pub attack_type: AttackType,
     pub modifier: i32,
@@ -428,12 +430,63 @@ pub struct Action {
     pub target_type: TargetType,
     pub damage: DieStat,
     pub damage_type: DamageType,
+    pub description: String,
 }
 
 //TODO
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub enum AttackType {}
+pub enum AttackType {
+    MeleeWeaponAttack,
+    RangedWeaponAttack,
+    MeleeSpellAttack,
+    RangedSpellAttack,
+}
+
+impl fmt::Display for AttackType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            AttackType::MeleeWeaponAttack => write!(f, "Melee Weapon Attack"),
+            AttackType::RangedWeaponAttack => write!(f, "Ranged Weapon Attack"),
+            AttackType::MeleeSpellAttack => write!(f, "Melee Spell Attack"),
+            AttackType::RangedSpellAttack => write!(f, "Ranged Spell Attack"),
+        }
+    }
+}
 
 //TODO
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub enum TargetType {}
+pub enum TargetType {
+    OneTarget,
+    MultipleTargets(i32),
+    Cone(i32),
+    Line(i32),
+    Cube(i32),
+    Sphere(i32),
+}
+
+impl fmt::Display for TargetType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            TargetType::OneTarget => write!(f, "one target"),
+            TargetType::MultipleTargets(x) => write!(f, "{} targets", num_to_words::integer_to_en_us(*x as i64).expect("Number of Targets")),
+            TargetType::Cone(x) => write!(f, "{} ft. Cone", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
+            TargetType::Line(x) => write!(f, "{} ft. Line", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
+            TargetType::Cube(x) => write!(f, "{} ft. Cube", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
+            TargetType::Sphere(x) => write!(f, "{} ft. Sphere", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct Lair {
+    pub name: String,
+    pub description: String,
+    pub lair_actions: Vec<Paragraph>,
+    pub regional_effects: Vec<Paragraph>,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct Paragraph {
+    pub paragraph: String,
+    pub bullet: bool,
+}
