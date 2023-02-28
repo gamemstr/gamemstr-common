@@ -14,7 +14,7 @@ pub struct Creature {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum AttributeType {
-    Type,
+    CreatureType,
     Alignment,
     ArmorClass,
     HealthPoints,
@@ -31,53 +31,50 @@ pub enum AttributeType {
     ChallengeRating,
     RacialTraits,
     Description,
-    Attack,
+    Actions,
     Lair,
     Other,
 }
 
+impl fmt::Display for AttributeType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            AttributeType::ArmorClass => write!(f, "Armor Class"),
+            AttributeType::HealthPoints => write!(f, "Health Points"),
+            AttributeType::SavingThrows => write!(f, "Saving Throws"),
+            AttributeType::DamageResistances => write!(f, "Damage Resistances"),
+            AttributeType::DamageImmunities => write!(f, "Damage Immunities"),
+            AttributeType::DamageVulnerabilities => write!(f, "Damage Vulnerabilities"),
+            AttributeType::ConditionImmunities => write!(f, "Condition Immunities"),
+            AttributeType::ChallengeRating => write!(f, "Challenge Rating"),
+            AttributeType::RacialTraits => write!(f, "Racial Traits"),
+            other => write!(f, "{:?}", other),
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum Attribute {
-    Type { creature_type: CreatureType },
-    Alignment { alignment: Alignment },
-    ArmorClass { armor_class: i32 },
-    HealthPoints { health: Health },
-    Speed {
-        walk: MovementSpeed,
-        swim: MovementSpeed,
-        fly: MovementSpeed,
-        burrow: MovementSpeed,
-        climb: MovementSpeed,
-    },
-    Stats {
-        strength: Stat,
-        dexterity: Stat,
-        constitution: Stat,
-        intelligence: Stat,
-        wisdom: Stat,
-        charisma: Stat,
-    },
-    SavingThrows {
-        strength: Stat,
-        dexterity: Stat,
-        constitution: Stat,
-        intelligence: Stat,
-        wisdom: Stat,
-        charisma: Stat,
-    },
-    DamageResistance { damage_resistances: Vec<DamageType> },
-    DamageImmunity { damage_immunities: Vec<DamageType> },
-    DamageVulnerability { damage_vulnerabilities: Vec<DamageType> },
-    ConditionImmunity { condition_immunities: Vec<ConditionType> },
-    Skill { skills: Vec<Skill> },
-    Sense { senses: Vec<Sense> },
-    Language { languages: Vec<Language> },
-    ChallengeRating { challenge_rating: String },
-    RacialTrait { racial_traits: Vec<Trait> },
-    Description { description: String },
-    Attack { attacks: Vec<Attack> },
-    Lair { lair: Lair },
-    Other { other: OtherAttribute },
+    CreatureType(CreatureType),
+    Alignment(Alignment),
+    ArmorClass(i32),
+    HealthPoints(Health),
+    Speed(MovementSpeed),
+    Stat(Stat),
+    SavingThrow(Stat),
+    DamageResistance(DamageType),
+    DamageImmunity(DamageType),
+    DamageVulnerability(DamageType),
+    ConditionImmunity(ConditionType),
+    Skill(Skill),
+    Sense(Sense),
+    Language(Language),
+    ChallengeRating(String),
+    RacialTrait(RacialTrait),
+    Description(String),
+    Attack(Attack),
+    Lair(Lair),
+    Other(OtherAttribute),
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
@@ -141,16 +138,6 @@ pub struct Stat {
     pub modifier: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub enum StatType {
-    Strength,
-    Dexterity,
-    Constitution,
-    Intelligence,
-    Wisdom,
-    Charisma,
-}
-
 impl Stat {
     pub fn from_value(stat_type: StatType, value: i32) -> Self {
         Self {
@@ -159,6 +146,16 @@ impl Stat {
             modifier: ((value - 10) as f64 / 2_f64).floor() as i32,
         }
     }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum StatType {
+    Strength,
+    Dexterity,
+    Constitution,
+    Intelligence,
+    Wisdom,
+    Charisma,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
@@ -366,7 +363,7 @@ impl fmt::Display for CreatureType {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub struct Trait {
+pub struct RacialTrait {
     pub name: String,
     pub description: String,
 }
@@ -394,7 +391,6 @@ impl fmt::Display for DamageType {
     }
 }
 
-// TODO:
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum ConditionType {
     Blinded,
@@ -420,7 +416,6 @@ impl fmt::Display for ConditionType {
     }
 }
 
-// TODO:
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct Attack {
     pub name: String,
@@ -433,7 +428,6 @@ pub struct Attack {
     pub description: String,
 }
 
-//TODO
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum AttackType {
     MeleeWeaponAttack,
@@ -453,7 +447,6 @@ impl fmt::Display for AttackType {
     }
 }
 
-//TODO
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum TargetType {
     OneTarget,
