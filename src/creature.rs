@@ -14,70 +14,90 @@ pub struct Creature {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum AttributeType {
-    Type,
-    Alignment,
-    ArmorClass,
-    HealthPoints,
-    Speed,
-    Stats,
-    SavingThrows,
-    DamageResistances,
-    DamageImmunities,
-    DamageVulnerabilities,
-    ConditionImmunities,
-    Skills,
-    Senses,
-    Languages,
-    ChallengeRating,
-    RacialTraits,
-    Description,
-    Attack,
-    Lair,
-    Other,
+    CreatureType(AttributeInfo),
+    Alignment(AttributeInfo),
+    ArmorClass(AttributeInfo),
+    HealthPoints(AttributeInfo),
+    Speed(AttributeInfo),
+    Stats(AttributeInfo),
+    SavingThrows(AttributeInfo),
+    DamageResistances(AttributeInfo),
+    DamageImmunities(AttributeInfo),
+    DamageVulnerabilities(AttributeInfo),
+    ConditionImmunities(AttributeInfo),
+    Skills(AttributeInfo),
+    Senses(AttributeInfo),
+    Languages(AttributeInfo),
+    ChallengeRating(AttributeInfo),
+    RacialTraits(AttributeInfo),
+    Description(AttributeInfo),
+    Actions(AttributeInfo),
+    Lair(AttributeInfo),
+    Other(AttributeInfo),
+}
+
+impl fmt::Display for AttributeType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self {
+            AttributeType::ArmorClass(i) => write!(f, "{}", i.to_string()),
+            AttributeType::HealthPoints(i) => write!(f, "{}", i.to_string()),
+            AttributeType::SavingThrows(i) => write!(f, "{}", i.to_string()),
+            AttributeType::DamageResistances(i) => write!(f, "{}", i.to_string()),
+            AttributeType::DamageImmunities(i) => write!(f, "{}", i.to_string()),
+            AttributeType::DamageVulnerabilities(i) => write!(f, "{}", i.to_string()),
+            AttributeType::ConditionImmunities(i) => write!(f, "{}", i.to_string()),
+            AttributeType::ChallengeRating(i) => write!(f, "{}", i.to_string()),
+            AttributeType::RacialTraits(i) => write!(f, "{}", i.to_string()),
+            AttributeType::CreatureType(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Alignment(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Speed(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Stats(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Skills(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Senses(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Languages(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Description(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Actions(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Lair(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Other(i) => write!(f, "{}", i.to_string()),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum Attribute {
-    Type { creature_type: CreatureType },
-    Alignment { alignment: Alignment },
-    ArmorClass { armor_class: i32 },
-    HealthPoints { health: Health },
-    Speed {
-        walk: MovementSpeed,
-        swim: MovementSpeed,
-        fly: MovementSpeed,
-        burrow: MovementSpeed,
-        climb: MovementSpeed,
-    },
-    Stats {
-        strength: Stat,
-        dexterity: Stat,
-        constitution: Stat,
-        intelligence: Stat,
-        wisdom: Stat,
-        charisma: Stat,
-    },
-    SavingThrows {
-        strength: Stat,
-        dexterity: Stat,
-        constitution: Stat,
-        intelligence: Stat,
-        wisdom: Stat,
-        charisma: Stat,
-    },
-    DamageResistance { damage_resistances: Vec<DamageType> },
-    DamageImmunity { damage_immunities: Vec<DamageType> },
-    DamageVulnerability { damage_vulnerabilities: Vec<DamageType> },
-    ConditionImmunity { condition_immunities: Vec<ConditionType> },
-    Skill { skills: Vec<Skill> },
-    Sense { senses: Vec<Sense> },
-    Language { languages: Vec<Language> },
-    ChallengeRating { challenge_rating: String },
-    RacialTrait { racial_traits: Vec<Trait> },
-    Description { description: String },
-    Attack { attacks: Vec<Attack> },
-    Lair { lair: Lair },
-    Other { other: OtherAttribute },
+    CreatureType(CreatureType),
+    Alignment(Alignment),
+    ArmorClass(i32),
+    HealthPoints(Health),
+    Speed(MovementSpeed),
+    Stat(Stat),
+    SavingThrow(Stat),
+    DamageResistance(DamageType),
+    DamageImmunity(DamageType),
+    DamageVulnerability(DamageType),
+    ConditionImmunity(ConditionType),
+    Skill(Skill),
+    Sense(Sense),
+    Language(Language),
+    ChallengeRating(String),
+    RacialTrait(RacialTrait),
+    Description(String),
+    Attack(Attack),
+    Lair(Lair),
+    Other(OtherAttribute),
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct AttributeInfo {
+    pub name: String,
+    pub description: String,
+    // TODO: Implement a way system for identifying which TTRPGS an attribute is used in
+}
+
+impl fmt::Display for AttributeInfo {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}: {}", self.name, self.description)
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
@@ -141,16 +161,6 @@ pub struct Stat {
     pub modifier: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub enum StatType {
-    Strength,
-    Dexterity,
-    Constitution,
-    Intelligence,
-    Wisdom,
-    Charisma,
-}
-
 impl Stat {
     pub fn from_value(stat_type: StatType, value: i32) -> Self {
         Self {
@@ -159,6 +169,16 @@ impl Stat {
             modifier: ((value - 10) as f64 / 2_f64).floor() as i32,
         }
     }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum StatType {
+    Strength,
+    Dexterity,
+    Constitution,
+    Intelligence,
+    Wisdom,
+    Charisma,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
@@ -366,7 +386,7 @@ impl fmt::Display for CreatureType {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
-pub struct Trait {
+pub struct RacialTrait {
     pub name: String,
     pub description: String,
 }
@@ -394,7 +414,6 @@ impl fmt::Display for DamageType {
     }
 }
 
-// TODO:
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum ConditionType {
     Blinded,
@@ -420,7 +439,6 @@ impl fmt::Display for ConditionType {
     }
 }
 
-// TODO:
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct Attack {
     pub name: String,
@@ -433,7 +451,6 @@ pub struct Attack {
     pub description: String,
 }
 
-//TODO
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum AttackType {
     MeleeWeaponAttack,
@@ -453,7 +470,6 @@ impl fmt::Display for AttackType {
     }
 }
 
-//TODO
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum TargetType {
     OneTarget,
