@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod player;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Die {
     D4,
     D6,

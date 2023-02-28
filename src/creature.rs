@@ -2,6 +2,7 @@ use core::fmt;
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 use crate::world::campaign::Die;
 
@@ -12,7 +13,32 @@ pub struct Creature {
     pub attributes: HashMap<AttributeType, Attribute>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+impl Creature {
+    pub fn new(name: String, attributes: HashMap<AttributeType, Attribute>) -> Self {
+        Self {
+            id: Uuid::new_v4().to_string(),
+            name,
+            attributes
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CreatureRequest {
+    pub name: Option<String>,
+    pub attributes: Option<HashMap<AttributeType, Attribute>>,
+}
+
+impl CreatureRequest {
+    pub fn to_creature(&self) -> Option<Creature> {
+        match &self.name {
+            Some(name) => Some(Creature::new(name.to_string(), self.attributes.clone().expect("No attributes provided"))),
+            None => None,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum AttributeType {
     CreatureType(AttributeInfo),
     Alignment(AttributeInfo),
@@ -63,7 +89,7 @@ impl fmt::Display for AttributeType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Attribute {
     CreatureType(CreatureType),
     Alignment(Alignment),
@@ -87,7 +113,7 @@ pub enum Attribute {
     Other(OtherAttribute),
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct AttributeInfo {
     pub name: String,
     pub description: String,
@@ -100,7 +126,7 @@ impl fmt::Display for AttributeInfo {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum MovementSpeed {
     Walk(u8),
     Swim(u8),
@@ -123,7 +149,7 @@ impl fmt::Display for MovementSpeed {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Alignment {
     ChaoticEvil,
     ChaoticNeutral,
@@ -154,7 +180,7 @@ impl fmt::Display for Alignment {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Stat {
     pub stat_type: StatType,
     pub value: i32,
@@ -171,7 +197,7 @@ impl Stat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum StatType {
     Strength,
     Dexterity,
@@ -181,7 +207,7 @@ pub enum StatType {
     Charisma,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Health {
     pub health: DieStat,
 }
@@ -211,7 +237,7 @@ impl fmt::Display for Health {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct DieStat {
     pub die_count: i32,
     pub die_type: Die,
@@ -224,7 +250,7 @@ impl DieStat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Skill {
     pub skill_type: SkillType,
     pub modifier: i32,
@@ -236,7 +262,7 @@ impl fmt::Display for Skill {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum SkillType {
     Acrobatics,
     AnimalHandling,
@@ -283,7 +309,7 @@ impl fmt::Display for SkillType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Sense {
     Blindsight(u32),
     Darkvision(u32),
@@ -302,7 +328,7 @@ impl fmt::Display for Sense {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Language {
     Abanasinia,
     Abyssal,
@@ -361,7 +387,7 @@ impl fmt::Display for Language {
 }
 
 // TODO:
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum CreatureType {
     Aberration,
     Beast,
@@ -385,13 +411,13 @@ impl fmt::Display for CreatureType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct RacialTrait {
     pub name: String,
     pub description: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum DamageType {
     Slashing,
     Piercing,
@@ -414,7 +440,7 @@ impl fmt::Display for DamageType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum ConditionType {
     Blinded,
     Charmed,
@@ -439,7 +465,7 @@ impl fmt::Display for ConditionType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Attack {
     pub name: String,
     pub attack_type: AttackType,
@@ -451,7 +477,7 @@ pub struct Attack {
     pub description: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum AttackType {
     MeleeWeaponAttack,
     RangedWeaponAttack,
@@ -470,7 +496,7 @@ impl fmt::Display for AttackType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum TargetType {
     OneTarget,
     MultipleTargets(i32),
@@ -493,7 +519,7 @@ impl fmt::Display for TargetType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Lair {
     pub name: String,
     pub description: String,
@@ -501,13 +527,13 @@ pub struct Lair {
     pub regional_effects: Vec<Paragraph>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Paragraph {
     pub paragraph: String,
     pub bullet: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct OtherAttribute {
     pub title: String,
     pub description: String,
