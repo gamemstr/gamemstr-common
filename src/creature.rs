@@ -77,7 +77,7 @@ pub enum Attribute {
     Description { description: String },
     Attack { attacks: Vec<Attack> },
     Lair { lair: Lair },
-    Other { other: String },
+    Other { other: OtherAttribute },
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
@@ -489,4 +489,11 @@ pub struct Lair {
 pub struct Paragraph {
     pub paragraph: String,
     pub bullet: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct OtherAttribute {
+    pub title: String,
+    pub description: String,
+    pub value: String,
 }
