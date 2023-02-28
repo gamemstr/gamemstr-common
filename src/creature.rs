@@ -14,41 +14,51 @@ pub struct Creature {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum AttributeType {
-    CreatureType,
-    Alignment,
-    ArmorClass,
-    HealthPoints,
-    Speed,
-    Stats,
-    SavingThrows,
-    DamageResistances,
-    DamageImmunities,
-    DamageVulnerabilities,
-    ConditionImmunities,
-    Skills,
-    Senses,
-    Languages,
-    ChallengeRating,
-    RacialTraits,
-    Description,
-    Actions,
-    Lair,
-    Other,
+    CreatureType(AttributeInfo),
+    Alignment(AttributeInfo),
+    ArmorClass(AttributeInfo),
+    HealthPoints(AttributeInfo),
+    Speed(AttributeInfo),
+    Stats(AttributeInfo),
+    SavingThrows(AttributeInfo),
+    DamageResistances(AttributeInfo),
+    DamageImmunities(AttributeInfo),
+    DamageVulnerabilities(AttributeInfo),
+    ConditionImmunities(AttributeInfo),
+    Skills(AttributeInfo),
+    Senses(AttributeInfo),
+    Languages(AttributeInfo),
+    ChallengeRating(AttributeInfo),
+    RacialTraits(AttributeInfo),
+    Description(AttributeInfo),
+    Actions(AttributeInfo),
+    Lair(AttributeInfo),
+    Other(AttributeInfo),
 }
 
 impl fmt::Display for AttributeType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            AttributeType::ArmorClass => write!(f, "Armor Class"),
-            AttributeType::HealthPoints => write!(f, "Health Points"),
-            AttributeType::SavingThrows => write!(f, "Saving Throws"),
-            AttributeType::DamageResistances => write!(f, "Damage Resistances"),
-            AttributeType::DamageImmunities => write!(f, "Damage Immunities"),
-            AttributeType::DamageVulnerabilities => write!(f, "Damage Vulnerabilities"),
-            AttributeType::ConditionImmunities => write!(f, "Condition Immunities"),
-            AttributeType::ChallengeRating => write!(f, "Challenge Rating"),
-            AttributeType::RacialTraits => write!(f, "Racial Traits"),
-            other => write!(f, "{:?}", other),
+            AttributeType::ArmorClass(i) => write!(f, "{}", i.to_string()),
+            AttributeType::HealthPoints(i) => write!(f, "{}", i.to_string()),
+            AttributeType::SavingThrows(i) => write!(f, "{}", i.to_string()),
+            AttributeType::DamageResistances(i) => write!(f, "{}", i.to_string()),
+            AttributeType::DamageImmunities(i) => write!(f, "{}", i.to_string()),
+            AttributeType::DamageVulnerabilities(i) => write!(f, "{}", i.to_string()),
+            AttributeType::ConditionImmunities(i) => write!(f, "{}", i.to_string()),
+            AttributeType::ChallengeRating(i) => write!(f, "{}", i.to_string()),
+            AttributeType::RacialTraits(i) => write!(f, "{}", i.to_string()),
+            AttributeType::CreatureType(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Alignment(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Speed(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Stats(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Skills(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Senses(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Languages(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Description(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Actions(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Lair(i) => write!(f, "{}", i.to_string()),
+            AttributeType::Other(i) => write!(f, "{}", i.to_string()),
         }
     }
 }
@@ -75,6 +85,19 @@ pub enum Attribute {
     Attack(Attack),
     Lair(Lair),
     Other(OtherAttribute),
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct AttributeInfo {
+    pub name: String,
+    pub description: String,
+    // TODO: Implement a way system for identifying which TTRPGS an attribute is used in
+}
+
+impl fmt::Display for AttributeInfo {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}: {}", self.name, self.description)
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
