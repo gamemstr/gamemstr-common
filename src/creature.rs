@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::world::campaign::Die;
+use crate::{Die, AttributeInfo, DamageType, ConditionType, OtherAttribute, Alignment};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Creature {
@@ -113,13 +113,6 @@ pub enum Attribute {
     Other(OtherAttribute),
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub struct AttributeInfo {
-    pub name: String,
-    pub description: String,
-    // TODO: Implement a way system for identifying which TTRPGS an attribute is used in
-}
-
 impl fmt::Display for AttributeInfo {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.name, self.description)
@@ -145,37 +138,6 @@ impl fmt::Display for MovementSpeed {
             MovementSpeed::Fly { speed, hover } => {
                 write!(f, "fly {}ft.{}", speed, if *hover { " (hover)" } else { "" })
             }
-        }
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum Alignment {
-    ChaoticEvil,
-    ChaoticNeutral,
-    ChaoticGood,
-    LawfulEvil,
-    LawfulNeutral,
-    LawfulGood,
-    NeutralEvil,
-    TrueNeutral,
-    NeutralGood,
-    Unaligned,
-}
-
-impl fmt::Display for Alignment {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match &self {
-            Alignment::ChaoticEvil => write!(f, "{}", String::from("chaotic evil")),
-            Alignment::ChaoticNeutral => write!(f, "{}", String::from("chaotic neutral")),
-            Alignment::ChaoticGood => write!(f, "{}", String::from("chaotic good")),
-            Alignment::LawfulEvil => write!(f, "{}", String::from("lawful evil")),
-            Alignment::LawfulNeutral => write!(f, "{}", String::from("lawful neutral")),
-            Alignment::LawfulGood => write!(f, "{}", String::from("lawful good")),
-            Alignment::NeutralEvil => write!(f, "{}", String::from("neutral evil")),
-            Alignment::TrueNeutral => write!(f, "{}", String::from("true neutral")),
-            Alignment::NeutralGood => write!(f, "{}", String::from("neutral good")),
-            Alignment::Unaligned => write!(f, "{}", String::from("unaligned")),
         }
     }
 }
@@ -418,54 +380,6 @@ pub struct RacialTrait {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum DamageType {
-    Slashing,
-    Piercing,
-    Bludgeoning,
-    Poison,
-    Acid,
-    Fire,
-    Cold,
-    Radiant,
-    Necrotic,
-    Lightning,
-    Thunder,
-    Force,
-    Psychic,
-}
-
-impl fmt::Display for DamageType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum ConditionType {
-    Blinded,
-    Charmed,
-    Deafened,
-    Exhaustion,
-    Frightened,
-    Grappled,
-    Incapacitated,
-    Invisible,
-    Paralyzed,
-    Petrified,
-    Poisoned,
-    Prone,
-    Restrained,
-    Stunned,
-    Unconscious,
-}
-
-impl fmt::Display for ConditionType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Attack {
     pub name: String,
     pub attack_type: AttackType,
@@ -531,11 +445,4 @@ pub struct Lair {
 pub struct Paragraph {
     pub paragraph: String,
     pub bullet: bool,
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub struct OtherAttribute {
-    pub title: String,
-    pub description: String,
-    pub value: String,
 }
