@@ -12,6 +12,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 name = "gamemstr-common"
 version = "0.1.0"
 dependencies = [
+ "num-to-words",
  "serde",
  "uuid",
 ]
@@ -32,6 +33,12 @@ name = "libc"
 version = "0.2.139"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "201de327520df007757c1f0adce6e827fe8562fbc28bfd9c15571c66ca1f5f79"
+
+[[package]]
+name = "num-to-words"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b5199b14652348cb28e020a9463b0ae6db03005a4025ea77b4f410f2192cbe05"
 
 [[package]]
 name = "proc-macro2"
