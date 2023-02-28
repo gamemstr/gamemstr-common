@@ -1,8 +1,10 @@
+use core::fmt;
+
 use serde::{Deserialize, Serialize};
 
 pub mod player;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum Die {
     D4,
     D6,
@@ -13,11 +15,13 @@ pub enum Die {
     D100,
 }
 
-impl Die {
-    pub fn to_string(&self) -> String {
-        format!("d{}", self.to_i32())
+impl fmt::Display for Die {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "d{}", self.to_i32())
     }
+}
 
+impl Die {
     pub fn to_i32(&self) -> i32 {
         match &self {
             Die::D4 => 4,

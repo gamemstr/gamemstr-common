@@ -1,3 +1,6 @@
+use core::fmt;
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 use crate::world::campaign::Die;
@@ -5,28 +8,77 @@ use crate::world::campaign::Die;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Creature {
     pub id: String,
-    pub creature_type: String,
-    pub alignment: Alignment,
     pub name: String,
-    pub ac: String,
-    pub hp: Health,
-    pub speed: Vec<MovementSpeed>,
-    pub stats: Stats,
-    pub saving_throws: Vec<Stat>,
-    pub resistances: Vec<DamageType>,
-    pub immunities: Vec<DamageType>,
-    pub vulnerabilities: Vec<DamageType>,
-    pub condition_immunities: Vec<ConditionType>,
-    pub skills: Vec<Skill>,
-    pub senses: Vec<Sense>,
-    pub languages: Vec<Language>,
-    pub cr: String,
-    pub racial_traits: Vec<Trait>,
-    pub description: String,
-    pub actions: Vec<Action>,
+    pub attributes: HashMap<AttributeType, Attribute>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum AttributeType {
+    Type,
+    Alignment,
+    ArmorClass,
+    HealthPoints,
+    Speed,
+    Stats,
+    SavingThrows,
+    DamageResistances,
+    DamageImmunities,
+    DamageVulnerabilities,
+    ConditionImmunities,
+    Skills,
+    Senses,
+    Languages,
+    ChallengeRating,
+    RacialTraits,
+    Description,
+    Actions,
+    Other,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum Attribute {
+    Type { creature_type: CreatureType },
+    Alignment { alignment: Alignment },
+    ArmorClass { armor_class: i32 },
+    HealthPoints { health: Health },
+    Speed {
+        walk: MovementSpeed,
+        swim: MovementSpeed,
+        fly: MovementSpeed,
+        burrow: MovementSpeed,
+        climb: MovementSpeed,
+    },
+    Stats {
+        strength: Stat,
+        dexterity: Stat,
+        constitution: Stat,
+        intelligence: Stat,
+        wisdom: Stat,
+        charisma: Stat,
+    },
+    SavingThrows {
+        strength: Stat,
+        dexterity: Stat,
+        constitution: Stat,
+        intelligence: Stat,
+        wisdom: Stat,
+        charisma: Stat,
+    },
+    DamageResistance { damage_resistances: Vec<DamageType> },
+    DamageImmunity { damage_immunities: Vec<DamageType> },
+    DamageVulnerability { damage_vulnerabilities: Vec<DamageType> },
+    ConditionImmunity { condition_immunities: Vec<ConditionType> },
+    Skill { skills: Vec<Skill> },
+    Sense { senses: Vec<Sense> },
+    Language { languages: Vec<Language> },
+    ChallengeRating { challenge_rating: String },
+    RacialTrait { racial_traits: Vec<Trait> },
+    Description { description: String },
+    Action { actions: Vec<Action> },
+    Other { other: String },
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum MovementSpeed {
     Walk(u8),
     Swim(u8),
@@ -35,21 +87,21 @@ pub enum MovementSpeed {
     Climb(u8),
 }
 
-impl MovementSpeed {
-    pub fn to_string(&self) -> String {
+impl fmt::Display for MovementSpeed {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            MovementSpeed::Walk(x) => format!("{}ft.", x),
-            MovementSpeed::Burrow(x) => format!("burrow {}ft.", x),
-            MovementSpeed::Swim(x) => format!("swim {}ft.", x),
-            MovementSpeed::Climb(x) => format!("climb {}ft.", x),
+            MovementSpeed::Walk(x) => write!(f, "{}ft.", x),
+            MovementSpeed::Burrow(x) => write!(f, "burrow {}ft.", x),
+            MovementSpeed::Swim(x) => write!(f, "swim {}ft.", x),
+            MovementSpeed::Climb(x) => write!(f, "climb {}ft.", x),
             MovementSpeed::Fly { speed, hover } => {
-                format!("fly {}ft.{}", speed, if *hover { " (hover)" } else { "" })
+                write!(f, "fly {}ft.{}", speed, if *hover { " (hover)" } else { "" })
             }
         }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum Alignment {
     ChaoticEvil,
     ChaoticNeutral,
@@ -63,41 +115,31 @@ pub enum Alignment {
     Unaligned,
 }
 
-impl Alignment {
-    pub fn to_string(&self) -> String {
+impl fmt::Display for Alignment {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            Alignment::ChaoticEvil => String::from("chaotic evil"),
-            Alignment::ChaoticNeutral => String::from("chaotic neutral"),
-            Alignment::ChaoticGood => String::from("chaotic good"),
-            Alignment::LawfulEvil => String::from("lawful evil"),
-            Alignment::LawfulNeutral => String::from("lawful neutral"),
-            Alignment::LawfulGood => String::from("lawful good"),
-            Alignment::NeutralEvil => String::from("neutral evil"),
-            Alignment::TrueNeutral => String::from("true neutral"),
-            Alignment::NeutralGood => String::from("neutral good"),
-            Alignment::Unaligned => String::from("unaligned"),
+            Alignment::ChaoticEvil => write!(f, "{}", String::from("chaotic evil")),
+            Alignment::ChaoticNeutral => write!(f, "{}", String::from("chaotic neutral")),
+            Alignment::ChaoticGood => write!(f, "{}", String::from("chaotic good")),
+            Alignment::LawfulEvil => write!(f, "{}", String::from("lawful evil")),
+            Alignment::LawfulNeutral => write!(f, "{}", String::from("lawful neutral")),
+            Alignment::LawfulGood => write!(f, "{}", String::from("lawful good")),
+            Alignment::NeutralEvil => write!(f, "{}", String::from("neutral evil")),
+            Alignment::TrueNeutral => write!(f, "{}", String::from("true neutral")),
+            Alignment::NeutralGood => write!(f, "{}", String::from("neutral good")),
+            Alignment::Unaligned => write!(f, "{}", String::from("unaligned")),
         }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Stats {
-    pub strength: Stat,
-    pub dexterity: Stat,
-    pub constitution: Stat,
-    pub intelligence: Stat,
-    pub wisdom: Stat,
-    pub charisma: Stat,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct Stat {
     pub stat_type: StatType,
     pub value: i32,
     pub modifier: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum StatType {
     Strength,
     Dexterity,
@@ -117,7 +159,7 @@ impl Stat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct Health {
     pub health: DieStat,
 }
@@ -132,9 +174,12 @@ impl Health {
             },
         }
     }
+}
 
-    pub fn to_string(&self) -> String {
-        format!(
+impl fmt::Display for Health {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
             "{} ({}{} + {})",
             self.health.value(),
             self.health.die_count,
@@ -144,7 +189,7 @@ impl Health {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct DieStat {
     pub die_count: i32,
     pub die_type: Die,
@@ -157,19 +202,19 @@ impl DieStat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub struct Skill {
     pub skill_type: SkillType,
     pub modifier: i32,
 }
 
-impl Skill {
-    pub fn to_string(&self) -> String {
-        format!("{} {}", self.skill_type.to_string(), self.modifier)
+impl fmt::Display for Skill {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} {}", self.skill_type.to_string(), self.modifier)
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum SkillType {
     Acrobatics,
     AnimalHandling,
@@ -191,32 +236,32 @@ pub enum SkillType {
     Survival,
 }
 
-impl SkillType {
-    pub fn to_string(&self) -> String {
+impl fmt::Display for SkillType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            SkillType::Acrobatics => String::from("Acrobatics (Dex)"),
-            SkillType::AnimalHandling => String::from("Animal Handling (Wis)"),
-            SkillType::Arcana => String::from("Arcana (Int)"),
-            SkillType::Athletics => String::from("Athletics (Str)"),
-            SkillType::Deception => String::from("Deception (Cha)"),
-            SkillType::History => String::from("History (Int)"),
-            SkillType::Insight => String::from("Insight (Wis)"),
-            SkillType::Intimidation => String::from("Intimidation (Cha)"),
-            SkillType::Investigation => String::from("Investigation (Int)"),
-            SkillType::Medicine => String::from("Medicine (Wis)"),
-            SkillType::Nature => String::from("Nature (Int)"),
-            SkillType::Perception => String::from("Perception (Wis)"),
-            SkillType::Performance => String::from("Performance (Cha)"),
-            SkillType::Persuasion => String::from("Persuasion (Cha)"),
-            SkillType::Religion => String::from("Religion (Int)"),
-            SkillType::SleightOfHand => String::from("Sleight of Hand (Dex)"),
-            SkillType::Stealth => String::from("Stealth (Dex)"),
-            SkillType::Survival => String::from("Survival (Wis)"),
+            SkillType::Acrobatics => write!(f, "{}", "Acrobatics (Dex)"),
+            SkillType::AnimalHandling => write!(f, "{}", "Animal Handling (Wis)"),
+            SkillType::Arcana => write!(f, "{}", "Arcana (Int)"),
+            SkillType::Athletics => write!(f, "{}", "Athletics (Str)"),
+            SkillType::Deception => write!(f, "{}", "Deception (Cha)"),
+            SkillType::History => write!(f, "{}", "History (Int)"),
+            SkillType::Insight => write!(f, "{}", "Insight (Wis)"),
+            SkillType::Intimidation => write!(f, "{}", "Intimidation (Cha)"),
+            SkillType::Investigation => write!(f, "{}", "Investigation (Int)"),
+            SkillType::Medicine => write!(f, "{}", "Medicine (Wis)"),
+            SkillType::Nature => write!(f, "{}", "Nature (Int)"),
+            SkillType::Perception => write!(f, "{}", "Perception (Wis)"),
+            SkillType::Performance => write!(f, "{}", "Performance (Cha)"),
+            SkillType::Persuasion => write!(f, "{}", "Persuasion (Cha)"),
+            SkillType::Religion => write!(f, "{}", "Religion (Int)"),
+            SkillType::SleightOfHand => write!(f, "{}", "Sleight of Hand (Dex)"),
+            SkillType::Stealth => write!(f, "{}", "Stealth (Dex)"),
+            SkillType::Survival => write!(f, "{}", "Survival (Wis)"),
         }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum Sense {
     Blindsight(u32),
     Darkvision(u32),
@@ -224,18 +269,18 @@ pub enum Sense {
     Truesight(u32),
 }
 
-impl Sense {
-    pub fn to_string(&self) -> String {
+impl fmt::Display for Sense {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            Sense::Blindsight(x) => format!("Blindsight {} ft.", x),
-            Sense::Darkvision(x) => format!("Darkvision {} ft.", x),
-            Sense::Tremorsense(x) => format!("Tremorsense {} ft.", x),
-            Sense::Truesight(x) => format!("Truesight {} ft.", x),
+            Sense::Blindsight(x) => write!(f, "Blindsight {} ft.", x),
+            Sense::Darkvision(x) => write!(f, "Darkvision {} ft.", x),
+            Sense::Tremorsense(x) => write!(f, "Tremorsense {} ft.", x),
+            Sense::Truesight(x) => write!(f, "Truesight {} ft.", x),
         }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
 pub enum Language {
     Abanasinia,
     Abyssal,
@@ -283,28 +328,112 @@ pub enum Language {
     Zemnian,
 }
 
-impl Language {
-    pub fn to_string(&self) -> String {
+impl fmt::Display for Language {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            Language::DeepSpeech => String::from("Deep Speech"),
-            Language::ThriKreen => String::from("Thri-Kreen"),
-            other => format!("{:?}", other),
+            Language::DeepSpeech => write!(f, "{}", String::from("Deep Speech")),
+            Language::ThriKreen => write!(f, "{}", String::from("Thri-Kreen")),
+            other => write!(f, "{:?}", other),
         }
     }
 }
 
 // TODO:
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Trait {}
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum CreatureType {
+    Aberration,
+    Beast,
+    Celestial,
+    Construct,
+    Dragon,
+    Elemental,
+    Fey,
+    Fiend,
+    Giant,
+    Humanoid,
+    Monstrosity,
+    Ooze,
+    Plant,
+    Undead,
+}
+
+impl fmt::Display for CreatureType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct Trait {
+    pub name: String,
+    pub description: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum DamageType {
+    Slashing,
+    Piercing,
+    Bludgeoning,
+    Poison,
+    Acid,
+    Fire,
+    Cold,
+    Radiant,
+    Necrotic,
+    Lightning,
+    Thunder,
+    Force,
+    Psychic,
+}
+
+impl fmt::Display for DamageType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
 
 // TODO:
-#[derive(Serialize, Deserialize, Debug)]
-pub enum DamageType {}
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum ConditionType {
+    Blinded,
+    Charmed,
+    Deafened,
+    Exhaustion,
+    Frightened,
+    Grappled,
+    Incapacitated,
+    Invisible,
+    Paralyzed,
+    Petrified,
+    Poisoned,
+    Prone,
+    Restrained,
+    Stunned,
+    Unconscious,
+}
+
+impl fmt::Display for ConditionType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
 
 // TODO:
-#[derive(Serialize, Deserialize, Debug)]
-pub enum ConditionType {}
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub struct Action {
+    pub name: String,
+    pub attack_type: AttackType,
+    pub modifier: i32,
+    pub reach: i32,
+    pub target_type: TargetType,
+    pub damage: DieStat,
+    pub damage_type: DamageType,
+}
 
-// TODO:
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Action {}
+//TODO
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum AttackType {}
+
+//TODO
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash)]
+pub enum TargetType {}
