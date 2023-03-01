@@ -113,12 +113,6 @@ pub enum Attribute {
     Other(OtherAttribute),
 }
 
-impl fmt::Display for AttributeInfo {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}: {}", self.name, self.description)
-    }
-}
-
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum MovementSpeed {
     Walk(u8),
