@@ -118,6 +118,12 @@ impl DieStat {
     }
 }
 
+impl fmt::Display for DieStat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}{} + {}", self.die_count, self.die_type.to_string(), self.extra)
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct OtherAttribute {
     pub title: String,

@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::{Die, AttributeInfo, DamageType, ConditionType, OtherAttribute, Alignment, DieStat, action::{Action, ActionType}};
+use crate::{Die, AttributeInfo, DamageType, ConditionType, OtherAttribute, Alignment, DieStat, action::Action};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Creature {
@@ -184,11 +184,9 @@ impl fmt::Display for Health {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{} ({}{} + {})",
+            "{} ({})",
             self.health.value(),
-            self.health.die_count,
-            self.health.die_type.to_string(),
-            self.health.extra
+            self.health.to_string(),
         )
     }
 }
