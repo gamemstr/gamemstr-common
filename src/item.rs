@@ -31,13 +31,13 @@ pub enum Attribute {
     ItemType(ItemType),
     ItemRarity(ItemRarity),
     Attunement(Attuneable),
-    EffectType(), // TODO: this needs to be multiple attributes probably
     WeaponType(WeaponType),
     ArmorType(ArmorType),
     Conditions(ConditionType),
     AttachedSpell(Spell),
     HasCharges(Charge),
     Other(OtherAttribute),
+    Action(Action),
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
