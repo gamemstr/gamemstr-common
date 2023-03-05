@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use serde::{Serialize, Deserialize};
 
-use crate::{AttributeInfo, ConditionType, OtherAttribute, Alignment, spell::Spell};
+use crate::{AttributeInfo, ConditionType, OtherAttribute, Alignment, spell::Spell, action::Action};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Item {
@@ -31,13 +31,13 @@ pub enum Attribute {
     ItemType(ItemType),
     ItemRarity(ItemRarity),
     Attunement(Attuneable),
-    EffectType(), // TODO: this needs to be multiple attributes probably
     WeaponType(WeaponType),
     ArmorType(ArmorType),
     Conditions(ConditionType),
     AttachedSpell(Spell),
     HasCharges(Charge),
     Other(OtherAttribute),
+    Action(Action),
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]

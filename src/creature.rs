@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::{Die, AttributeInfo, DamageType, ConditionType, OtherAttribute, Alignment};
+use crate::{Die, AttributeInfo, DamageType, ConditionType, OtherAttribute, Alignment, DieStat, action::Action};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Creature {
@@ -108,7 +108,7 @@ pub enum Attribute {
     ChallengeRating(String),
     RacialTrait(RacialTrait),
     Description(String),
-    Attack(Attack),
+    Action(Action),
     Lair(Lair),
     Other(OtherAttribute),
 }
@@ -184,25 +184,10 @@ impl fmt::Display for Health {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{} ({}{} + {})",
+            "{} ({})",
             self.health.value(),
-            self.health.die_count,
-            self.health.die_type.to_string(),
-            self.health.extra
+            self.health.to_string(),
         )
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub struct DieStat {
-    pub die_count: i32,
-    pub die_type: Die,
-    pub extra: i32,
-}
-
-impl DieStat {
-    pub fn value(&self) -> i32 {
-        (self.die_count as f64 * (self.die_type.to_f64() / 2_f64 + 0.5)).floor() as i32 + self.extra
     }
 }
 
@@ -371,60 +356,6 @@ impl fmt::Display for CreatureType {
 pub struct RacialTrait {
     pub name: String,
     pub description: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub struct Attack {
-    pub name: String,
-    pub attack_type: AttackType,
-    pub modifier: i32,
-    pub reach: i32,
-    pub target_type: TargetType,
-    pub damage: DieStat,
-    pub damage_type: DamageType,
-    pub description: String,
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum AttackType {
-    MeleeWeaponAttack,
-    RangedWeaponAttack,
-    MeleeSpellAttack,
-    RangedSpellAttack,
-}
-
-impl fmt::Display for AttackType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match &self {
-            AttackType::MeleeWeaponAttack => write!(f, "Melee Weapon Attack"),
-            AttackType::RangedWeaponAttack => write!(f, "Ranged Weapon Attack"),
-            AttackType::MeleeSpellAttack => write!(f, "Melee Spell Attack"),
-            AttackType::RangedSpellAttack => write!(f, "Ranged Spell Attack"),
-        }
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum TargetType {
-    OneTarget,
-    MultipleTargets(i32),
-    Cone(i32),
-    Line(i32),
-    Cube(i32),
-    Sphere(i32),
-}
-
-impl fmt::Display for TargetType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match &self {
-            TargetType::OneTarget => write!(f, "one target"),
-            TargetType::MultipleTargets(x) => write!(f, "{} targets", num_to_words::integer_to_en_us(*x as i64).expect("Number of Targets")),
-            TargetType::Cone(x) => write!(f, "{} ft. Cone", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-            TargetType::Line(x) => write!(f, "{} ft. Line", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-            TargetType::Cube(x) => write!(f, "{} ft. Cube", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-            TargetType::Sphere(x) => write!(f, "{} ft. Sphere", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-        }
-    }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]

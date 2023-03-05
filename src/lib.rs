@@ -2,6 +2,7 @@ use core::fmt;
 
 use serde::{Serialize, Deserialize};
 
+pub mod action;
 pub mod creature;
 pub mod item;
 pub mod spell;
@@ -101,6 +102,25 @@ impl Die {
 
     pub fn to_f64(&self) -> f64 {
         self.to_i32() as f64
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+pub struct DieStat {
+    pub die_count: i32,
+    pub die_type: Die,
+    pub extra: i32,
+}
+
+impl DieStat {
+    pub fn value(&self) -> i32 {
+        (self.die_count as f64 * (self.die_type.to_f64() / 2_f64 + 0.5)).floor() as i32 + self.extra
+    }
+}
+
+impl fmt::Display for DieStat {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}{} + {}", self.die_count, self.die_type.to_string(), self.extra)
     }
 }
 
