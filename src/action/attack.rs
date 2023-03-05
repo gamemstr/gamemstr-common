@@ -1,93 +1,153 @@
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 
 use crate::{DamageType, DieStat};
 
-use super::{Action, ActionType};
-
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub struct Attack {
-    pub name: String,
-    pub attack_type: AttackType,
-    pub modifier: i32,
-    pub reach: Option<i32>,
-    pub range: Option<Range>,
-    pub target_type: TargetType,
-    pub damage: DieStat,
-    pub damage_type: DamageType,
-    pub description: String,
+pub enum Attack {
+    MeleeWeaponAttack {
+        name: String,
+        modifier: i32,
+        reach: Option<i32>,
+        target_type: TargetType,
+        damage: DieStat,
+        damage_type: DamageType,
+        description: String,
+    },
+    RangedWeaponAttack {
+        name: String,
+        modifier: i32,
+        range: Option<Range>,
+        target_type: TargetType,
+        damage: DieStat,
+        damage_type: DamageType,
+        description: String,
+    },
+    MeleeOrRangedWeaponAttack {
+        name: String,
+        modifier: i32,
+        reach: Option<i32>,
+        range: Option<Range>,
+        target_type: TargetType,
+        damage: DieStat,
+        damage_type: DamageType,
+        description: String,
+    },
+    MeleeSpellAttack {
+        name: String,
+        modifier: i32,
+        reach: Option<i32>,
+        target_type: TargetType,
+        damage: DieStat,
+        damage_type: DamageType,
+        description: String,
+    },
+    RangedSpellAttack {
+        name: String,
+        modifier: i32,
+        range: Option<Range>,
+        target_type: TargetType,
+        damage: DieStat,
+        damage_type: DamageType,
+        description: String,
+    },
 }
-
-impl ActionType for Attack {}
 
 impl fmt::Display for Attack {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let has_reach = false;
-        if let Some(_) = self.reach {
-            has_reach = true
-        }
-        let has_range = false;
-        if let Some(_) = self.range {
-            has_range = true;
-        }
-        let has_both = has_range && has_reach;
-        write!(
-            f,
-            "{}. {}: {} to hit, {} {} {} {} {}, {}. Hit: {} {}",
-            self.name,
-            self.attack_type.to_string(),
-            self.modifier,
-            if has_reach {
-                "reach"
-            } else {
-                ""
-            },
-            if has_reach {
-                self.reach
-            } else {
-                ""
-            },
-            if has_both {
-                "or"
-            } else {
-                ""
-            },
-            if has_range {
-                "range"
-            } else {
-                ""
-            },
-            if has_range {
-                format!("{}/{} ft.", self.range.close_range,self.range.long_range)
-            } else {
-                String::from("")
-            },
-            self.target_type.to_string(),
-            self.damage.to_string(),
-            self.damage_type
-        )
-    }
-}
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum AttackType {
-    MeleeWeaponAttack,
-    RangedWeaponAttack,
-    MeleeOrRangedWeaponAttack,
-    MeleeSpellAttack,
-    RangedSpellAttack,
-}
-
-impl fmt::Display for AttackType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            AttackType::MeleeWeaponAttack => write!(f, "Melee Weapon Attack"),
-            AttackType::RangedWeaponAttack => write!(f, "Ranged Weapon Attack"),
-            AttackType::MeleeOrRangedWeaponAttack => write!(f, "Melee or Ranged Weapon Attack"),
-            AttackType::MeleeSpellAttack => write!(f, "Melee Spell Attack"),
-            AttackType::RangedSpellAttack => write!(f, "Ranged Spell Attack"),
+            Attack::MeleeWeaponAttack { name, modifier, reach, target_type, damage, damage_type, description } => {
+                write!(
+                    f,
+                    "{}. {}: {} to hit, reach {}, {}. Hit: {} {}",
+                    name,
+                    "Melee Weapon Attack",
+                    modifier,
+                    if let Some(x) = reach {
+                        x.to_string()
+                    } else {
+                        String::new()
+                    },
+                    target_type.to_string(),
+                    damage.to_string(),
+                    damage_type
+                )
+            },
+            Attack::RangedWeaponAttack { name, modifier, range, target_type, damage, damage_type, description } => {
+                write!(
+                    f,
+                    "{}. {}: {} to hit, range {}, {}. Hit: {} {}",
+                    name,
+                    "Ranged Weapon Attack",
+                    modifier,
+                    if let Some(x) = range {
+                        format!("{}/{} ft.", x.close_range, x.long_range)
+                    } else {
+                        String::from("")
+                    },
+                    target_type.to_string(),
+                    damage.to_string(),
+                    damage_type
+                )
+            },
+            Attack::MeleeOrRangedWeaponAttack { name, modifier, reach, range, target_type, damage, damage_type, description } => {
+                write!(
+                    f,
+                    "{}. {}: {} to hit, reach {} or range {}, {}. Hit: {} {}",
+                    name,
+                    "",
+                    modifier,
+                    if let Some(x) = reach {
+                        x.to_string()
+                    } else {
+                        String::new()
+                    },
+                    if let Some(x) = range {
+                        format!("{}/{} ft.", x.close_range, x.long_range)
+                    } else {
+                        String::new()
+                    },
+                    target_type.to_string(),
+                    damage.to_string(),
+                    damage_type
+                )
+            },
+            Attack::MeleeSpellAttack { name, modifier, reach, target_type, damage, damage_type, description } => {
+                write!(
+                    f,
+                    "{}. {}: {} to hit, reach {}, {}. Hit: {} {}",
+                    name,
+                    "Melee Spell Attack",
+                    modifier,
+                    if let Some(x) = reach {
+                        x.to_string()
+                    } else {
+                        String::new()
+                    },
+                    target_type.to_string(),
+                    damage.to_string(),
+                    damage_type
+                )
+            },
+            Attack::RangedSpellAttack { name, modifier, range, target_type, damage, damage_type, description } => {
+                write!(
+                    f,
+                    "{}. {}: {} to hit, range {}, {}. Hit: {} {}",
+                    name,
+                    "Ranged Spell Attack",
+                    modifier,
+                    if let Some(x) = range {
+                        format!("{}/{} ft.", x.close_range, x.long_range)
+                    } else {
+                        String::new()
+                    },
+                    target_type.to_string(),
+                    damage.to_string(),
+                    damage_type
+                )
+            },
         }
     }
 }
