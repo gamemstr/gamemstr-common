@@ -4,7 +4,10 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::{Die, AttributeInfo, DamageType, ConditionType, OtherAttribute, Alignment, DieStat, action::Action};
+use crate::{
+    action::Action, monster::MonsterType, Alignment, AttributeInfo, ConditionType, DamageType, Die,
+    DieStat, OtherAttribute,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Creature {
@@ -18,7 +21,7 @@ impl Creature {
         Self {
             id: Uuid::new_v4().to_string(),
             name,
-            attributes
+            attributes,
         }
     }
 }
@@ -32,7 +35,10 @@ pub struct CreatureRequest {
 impl CreatureRequest {
     pub fn to_creature(&self) -> Option<Creature> {
         match &self.name {
-            Some(name) => Some(Creature::new(name.to_string(), self.attributes.clone().expect("No attributes provided"))),
+            Some(name) => Some(Creature::new(
+                name.to_string(),
+                self.attributes.clone().expect("No attributes provided"),
+            )),
             None => None,
         }
     }
@@ -130,7 +136,12 @@ impl fmt::Display for MovementSpeed {
             MovementSpeed::Swim(x) => write!(f, "swim {}ft.", x),
             MovementSpeed::Climb(x) => write!(f, "climb {}ft.", x),
             MovementSpeed::Fly { speed, hover } => {
-                write!(f, "fly {}ft.{}", speed, if *hover { " (hover)" } else { "" })
+                write!(
+                    f,
+                    "fly {}ft.{}",
+                    speed,
+                    if *hover { " (hover)" } else { "" }
+                )
             }
         }
     }
@@ -182,12 +193,7 @@ impl Health {
 
 impl fmt::Display for Health {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "{} ({})",
-            self.health.value(),
-            self.health.to_string(),
-        )
+        write!(f, "{} ({})", self.health.value(), self.health.to_string(),)
     }
 }
 
@@ -330,26 +336,7 @@ impl fmt::Display for Language {
 // TODO:
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum CreatureType {
-    Aberration,
-    Beast,
-    Celestial,
-    Construct,
-    Dragon,
-    Elemental,
-    Fey,
-    Fiend,
-    Giant,
-    Humanoid,
-    Monstrosity,
-    Ooze,
-    Plant,
-    Undead,
-}
-
-impl fmt::Display for CreatureType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
+    Monster(MonsterType),
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
