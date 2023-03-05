@@ -61,7 +61,7 @@ impl fmt::Display for Attack {
             Attack::MeleeWeaponAttack { name, modifier, reach, target_type, damage, damage_type, description } => {
                 write!(
                     f,
-                    "{}. {}: {} to hit, reach {}, {}. Hit: {} {}",
+                    "{}. {}: {} to hit, reach {}, {}. Hit: {} {}. {}",
                     name,
                     "Melee Weapon Attack",
                     modifier,
@@ -72,13 +72,14 @@ impl fmt::Display for Attack {
                     },
                     target_type.to_string(),
                     damage.to_string(),
-                    damage_type
+                    damage_type,
+                    description
                 )
             },
             Attack::RangedWeaponAttack { name, modifier, range, target_type, damage, damage_type, description } => {
                 write!(
                     f,
-                    "{}. {}: {} to hit, range {}, {}. Hit: {} {}",
+                    "{}. {}: {} to hit, range {}, {}. Hit: {} {}. {}",
                     name,
                     "Ranged Weapon Attack",
                     modifier,
@@ -89,13 +90,14 @@ impl fmt::Display for Attack {
                     },
                     target_type.to_string(),
                     damage.to_string(),
-                    damage_type
+                    damage_type,
+                    description
                 )
             },
             Attack::MeleeOrRangedWeaponAttack { name, modifier, reach, range, target_type, damage, damage_type, description } => {
                 write!(
                     f,
-                    "{}. {}: {} to hit, reach {} or range {}, {}. Hit: {} {}",
+                    "{}. {}: {} to hit, reach {} or range {}, {}. Hit: {} {}. {}",
                     name,
                     "",
                     modifier,
@@ -111,13 +113,14 @@ impl fmt::Display for Attack {
                     },
                     target_type.to_string(),
                     damage.to_string(),
-                    damage_type
+                    damage_type,
+                    description
                 )
             },
             Attack::MeleeSpellAttack { name, modifier, reach, target_type, damage, damage_type, description } => {
                 write!(
                     f,
-                    "{}. {}: {} to hit, reach {}, {}. Hit: {} {}",
+                    "{}. {}: {} to hit, reach {}, {}. Hit: {} {}. {}",
                     name,
                     "Melee Spell Attack",
                     modifier,
@@ -128,13 +131,14 @@ impl fmt::Display for Attack {
                     },
                     target_type.to_string(),
                     damage.to_string(),
-                    damage_type
+                    damage_type,
+                    description
                 )
             },
             Attack::RangedSpellAttack { name, modifier, range, target_type, damage, damage_type, description } => {
                 write!(
                     f,
-                    "{}. {}: {} to hit, range {}, {}. Hit: {} {}",
+                    "{}. {}: {} to hit, range {}, {}. Hit: {} {}. {}",
                     name,
                     "Ranged Spell Attack",
                     modifier,
@@ -145,7 +149,8 @@ impl fmt::Display for Attack {
                     },
                     target_type.to_string(),
                     damage.to_string(),
-                    damage_type
+                    damage_type,
+                    description
                 )
             },
         }
