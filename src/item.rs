@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use serde::{Serialize, Deserialize};
 
-use crate::{AttributeInfo, ConditionType, OtherAttribute, Alignment, spell::Spell};
+use crate::{AttributeInfo, ConditionType, OtherAttribute, Alignment, spell::Spell, action::Action};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Item {
