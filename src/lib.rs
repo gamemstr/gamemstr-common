@@ -1,12 +1,12 @@
 use core::fmt;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 pub mod action;
 pub mod creature;
 pub mod item;
-pub mod spell;
 pub mod monster;
+pub mod spell;
 pub mod world;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
@@ -120,7 +120,13 @@ impl DieStat {
 
 impl fmt::Display for DieStat {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}{} + {}", self.die_count, self.die_type.to_string(), self.extra)
+        write!(
+            f,
+            "{}{} + {}",
+            self.die_count,
+            self.die_type.to_string(),
+            self.extra
+        )
     }
 }
 

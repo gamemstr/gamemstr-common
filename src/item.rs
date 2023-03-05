@@ -1,9 +1,11 @@
 use core::fmt;
 use std::collections::HashMap;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use crate::{AttributeInfo, ConditionType, OtherAttribute, Alignment, spell::Spell, action::Action};
+use crate::{
+    action::Action, spell::Spell, Alignment, AttributeInfo, ConditionType, OtherAttribute,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Item {
@@ -100,20 +102,23 @@ impl fmt::Display for Attuneable {
             } else {
                 ""
             },
-            if !self.alignments.is_empty()
-            {
+            if !self.alignments.is_empty() {
                 ""
             } else {
                 ", "
-            }, 
-            self.alignments.iter().map(|x| x.to_string() + ",").collect::<String>().trim_end_matches(",")
+            },
+            self.alignments
+                .iter()
+                .map(|x| x.to_string() + ",")
+                .collect::<String>()
+                .trim_end_matches(",")
         )
     }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum WeaponType {
-    Sword
+    Sword,
 }
 
 impl fmt::Display for WeaponType {
@@ -124,7 +129,7 @@ impl fmt::Display for WeaponType {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum ArmorType {
-    Shield
+    Shield,
 }
 
 impl fmt::Display for ArmorType {
@@ -136,7 +141,7 @@ impl fmt::Display for ArmorType {
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Charge {
     pub num: i32,
-    pub time: TimeDivision
+    pub time: TimeDivision,
 }
 
 impl fmt::Display for Charge {
@@ -163,7 +168,7 @@ impl fmt::Display for TimeDivision {
 }
 
 impl TimeDivision {
-    pub fn to_plural_string(&self) -> String{
+    pub fn to_plural_string(&self) -> String {
         format!("{:?}s", self)
     }
 }
