@@ -3,7 +3,7 @@ use std::{collections::BTreeMap, hash::Hash};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{DieStat, DamageType};
+use crate::{DamageType, DieStat};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Spell {
@@ -105,7 +105,7 @@ pub enum Duration {
     UntilTriggered,
 }
 
-impl fmt::Display  for Duration {
+impl fmt::Display for Duration {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
             Duration::Instantaneous => write!(f, "Instantaneous"),
@@ -121,10 +121,10 @@ impl fmt::Display  for Duration {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
-pub enum SpellRange{
+pub enum SpellRange {
     S,
     Touch,
-    Range(i32)
+    Range(i32),
 }
 
 impl fmt::Display for SpellRange {
