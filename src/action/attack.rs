@@ -56,9 +56,16 @@ pub enum Attack {
 
 impl fmt::Display for Attack {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-
         match &self {
-            Attack::MeleeWeaponAttack { name, modifier, reach, target_type, damage, damage_type, description } => {
+            Attack::MeleeWeaponAttack {
+                name,
+                modifier,
+                reach,
+                target_type,
+                damage,
+                damage_type,
+                description,
+            } => {
                 write!(
                     f,
                     "{}. {}: {} to hit, reach {}, {}. Hit: {} {}. {}",
@@ -75,8 +82,16 @@ impl fmt::Display for Attack {
                     damage_type,
                     description
                 )
-            },
-            Attack::RangedWeaponAttack { name, modifier, range, target_type, damage, damage_type, description } => {
+            }
+            Attack::RangedWeaponAttack {
+                name,
+                modifier,
+                range,
+                target_type,
+                damage,
+                damage_type,
+                description,
+            } => {
                 write!(
                     f,
                     "{}. {}: {} to hit, range {}, {}. Hit: {} {}. {}",
@@ -93,8 +108,17 @@ impl fmt::Display for Attack {
                     damage_type,
                     description
                 )
-            },
-            Attack::MeleeOrRangedWeaponAttack { name, modifier, reach, range, target_type, damage, damage_type, description } => {
+            }
+            Attack::MeleeOrRangedWeaponAttack {
+                name,
+                modifier,
+                reach,
+                range,
+                target_type,
+                damage,
+                damage_type,
+                description,
+            } => {
                 write!(
                     f,
                     "{}. {}: {} to hit, reach {} or range {}, {}. Hit: {} {}. {}",
@@ -116,8 +140,16 @@ impl fmt::Display for Attack {
                     damage_type,
                     description
                 )
-            },
-            Attack::MeleeSpellAttack { name, modifier, reach, target_type, damage, damage_type, description } => {
+            }
+            Attack::MeleeSpellAttack {
+                name,
+                modifier,
+                reach,
+                target_type,
+                damage,
+                damage_type,
+                description,
+            } => {
                 write!(
                     f,
                     "{}. {}: {} to hit, reach {}, {}. Hit: {} {}. {}",
@@ -134,8 +166,16 @@ impl fmt::Display for Attack {
                     damage_type,
                     description
                 )
-            },
-            Attack::RangedSpellAttack { name, modifier, range, target_type, damage, damage_type, description } => {
+            }
+            Attack::RangedSpellAttack {
+                name,
+                modifier,
+                range,
+                target_type,
+                damage,
+                damage_type,
+                description,
+            } => {
                 write!(
                     f,
                     "{}. {}: {} to hit, range {}, {}. Hit: {} {}. {}",
@@ -152,7 +192,7 @@ impl fmt::Display for Attack {
                     damage_type,
                     description
                 )
-            },
+            }
         }
     }
 }
@@ -171,11 +211,31 @@ impl fmt::Display for TargetType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
             TargetType::OneTarget => write!(f, "one target"),
-            TargetType::MultipleTargets(x) => write!(f, "{} targets", num_to_words::integer_to_en_us(*x as i64).expect("Number of Targets")),
-            TargetType::Cone(x) => write!(f, "{} ft. Cone", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-            TargetType::Line(x) => write!(f, "{} ft. Line", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-            TargetType::Cube(x) => write!(f, "{} ft. Cube", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
-            TargetType::Sphere(x) => write!(f, "{} ft. Sphere", num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")),
+            TargetType::MultipleTargets(x) => write!(
+                f,
+                "{} targets",
+                num_to_words::integer_to_en_us(*x as i64).expect("Number of Targets")
+            ),
+            TargetType::Cone(x) => write!(
+                f,
+                "{} ft. Cone",
+                num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")
+            ),
+            TargetType::Line(x) => write!(
+                f,
+                "{} ft. Line",
+                num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")
+            ),
+            TargetType::Cube(x) => write!(
+                f,
+                "{} ft. Cube",
+                num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")
+            ),
+            TargetType::Sphere(x) => write!(
+                f,
+                "{} ft. Sphere",
+                num_to_words::integer_to_en_us(*x as i64).expect("Number of Feet")
+            ),
         }
     }
 }
