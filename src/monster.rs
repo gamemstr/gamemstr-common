@@ -2,6 +2,19 @@ use core::fmt;
 
 use serde::{Deserialize, Serialize};
 
+use crate::creature::Creature;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Monster {
+    pub creature: Creature,
+}
+
+impl Monster {
+    pub fn new(creature: Creature) -> Self {
+        Self { creature }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum MonsterType {
     Aberration,

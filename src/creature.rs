@@ -9,7 +9,7 @@ use crate::{
     DieStat, OtherAttribute,
 };
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 pub struct Creature {
     pub id: String,
     pub name: String,
