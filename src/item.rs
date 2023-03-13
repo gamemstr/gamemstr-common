@@ -1,5 +1,5 @@
 use core::fmt;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
@@ -7,14 +7,14 @@ use crate::{
     action::Action, spell::Spell, Alignment, AttributeInfo, ConditionType, OtherAttribute,
 };
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub struct Item {
     pub id: String,
     pub name: String,
-    pub attributes: HashMap<AttributeType, Attribute>,
+    pub attributes: BTreeMap<AttributeType, Attribute>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
 pub enum AttributeType {
     ItemType(AttributeInfo),
     ItemRarity(AttributeInfo),
@@ -38,6 +38,7 @@ pub enum Attribute {
     Conditions(ConditionType),
     AttachedSpell(Spell),
     HasCharges(Charge),
+    Inventory(Vec<Item>),
     Other(OtherAttribute),
     Action(Action),
 }

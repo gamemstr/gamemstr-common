@@ -9,7 +9,7 @@ pub mod monster;
 pub mod spell;
 pub mod world;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
 pub struct AttributeInfo {
     pub name: String,
     pub description: String,
