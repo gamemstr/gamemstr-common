@@ -1,3 +1,12 @@
+//! A library of data types for interacting with the gamemstr API
+//!
+//! ## Example
+//! To use this library add the following to your `Cargo.toml`:
+//! ```toml
+//! [dependencies]
+//! gamemstr = "0.1.0"
+//! ```
+
 use core::fmt;
 
 use serde::{Deserialize, Serialize};

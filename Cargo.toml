@@ -2,6 +2,12 @@
 name = "gamemstr-common"
 version = "0.1.0"
 edition = "2021"
+description = "Common code for the gamemstr project"
+authors = ["James Wolff <james.wolff0@gmail.com>"]
+homepage = "https://github.com/gamemstr/gamemstr-common"
+repository = "https://github.com/gamemstr/gamemstr-common"
+readme = "README.md"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
