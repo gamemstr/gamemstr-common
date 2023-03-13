@@ -1,15 +1,17 @@
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+use self::player::Player;
+
 pub mod player;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Campaign {
     pub id: String,
     pub name: String,
     pub description: String,
     pub world_id: String,
-    pub players: Vec<player::Player>,
+    pub players: Vec<Player>,
 }
 
 impl Campaign {
