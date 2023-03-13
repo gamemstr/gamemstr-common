@@ -13,5 +13,5 @@ license = "MIT"
 
 [dependencies]
 num-to-words = "0.1.0"
-serde = { version = "1.0.152", features = ["derive"] }
+serde = { version = "1.0.155", features = ["derive"] }
 uuid = { version = "1.3.0", features = ["serde", "v4"] }
