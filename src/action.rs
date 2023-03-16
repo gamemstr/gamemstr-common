@@ -24,17 +24,3 @@ impl Action {
         }
     }
 }
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ActionRequest {
-    pub action: Option<ActionType>,
-}
-
-impl ActionRequest {
-    pub fn to_action(&self) -> Option<Action> {
-        match &self.action {
-            Some(action) => Some(Action::new(action.clone())),
-            None => None,
-        }
-    }
-}

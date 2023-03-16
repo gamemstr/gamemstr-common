@@ -13,21 +13,3 @@ impl NPC {
         Self { creature, world_id }
     }
 }
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct NPCRequest {
-    pub creature: Option<Creature>,
-    pub world_id: Option<String>,
-}
-
-impl NPCRequest {
-    pub fn to_npc(&self) -> Option<NPC> {
-        match &self.creature {
-            Some(creature) => Some(NPC {
-                creature: creature.clone(),
-                world_id: self.world_id.clone().expect("no world_id provided"),
-            }),
-            None => None,
-        }
-    }
-}

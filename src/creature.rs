@@ -26,24 +26,6 @@ impl Creature {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CreatureRequest {
-    pub name: Option<String>,
-    pub attributes: Option<HashMap<AttributeType, Attribute>>,
-}
-
-impl CreatureRequest {
-    pub fn to_creature(&self) -> Option<Creature> {
-        match &self.name {
-            Some(name) => Some(Creature::new(
-                name.to_string(),
-                self.attributes.clone().expect("No attributes provided"),
-            )),
-            None => None,
-        }
-    }
-}
-
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum AttributeType {
     CreatureType(AttributeInfo),

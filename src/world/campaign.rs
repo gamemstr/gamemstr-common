@@ -25,23 +25,3 @@ impl Campaign {
         }
     }
 }
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CampaignRequest {
-    pub name: Option<String>,
-    pub description: Option<String>,
-    pub world_id: Option<String>,
-}
-
-impl CampaignRequest {
-    pub fn to_campaign(&self) -> Option<Campaign> {
-        match &self.name {
-            Some(name) => Some(Campaign::new(
-                name.to_string(),
-                self.description.clone().expect("no description provided"),
-                self.world_id.clone().expect("no world_id provided"),
-            )),
-            None => None,
-        }
-    }
-}

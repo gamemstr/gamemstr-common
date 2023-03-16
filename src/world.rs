@@ -22,21 +22,3 @@ impl World {
         }
     }
 }
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct WorldRequest {
-    pub name: Option<String>,
-    pub description: Option<String>,
-}
-
-impl WorldRequest {
-    pub fn to_world(&self) -> Option<World> {
-        match &self.name {
-            Some(name) => Some(World::new(
-                name.to_string(),
-                self.description.clone().expect("no description provided"),
-            )),
-            None => None,
-        }
-    }
-}
