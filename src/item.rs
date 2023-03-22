@@ -68,24 +68,26 @@ impl fmt::Display for ItemRarity {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Attuneable {
-    pub alignments: Vec<Alignment>,
+    pub alignments: Option<Vec<Alignment>>,
 }
 
 impl fmt::Display for Attuneable {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "(requires attunement{}{:?})",
-            if !self.alignments.is_empty() {
-                ""
+            "(requires attunement{})",
+            if self.alignments.is_none() {
+                String::new()
             } else {
-                ", "
+                format!(
+                    "{}{}",
+                    ", ", 
+                    self.alignments.as_ref().unwrap().iter()
+                        .map(|x| x.to_string() + ",")
+                        .collect::<String>()
+                        .trim_end_matches(",")
+                )
             },
-            self.alignments
-                .iter()
-                .map(|x| x.to_string() + ",")
-                .collect::<String>()
-                .trim_end_matches(",")
         )
     }
 }
@@ -144,5 +146,64 @@ impl fmt::Display for TimeDivision {
 impl TimeDivision {
     pub fn to_plural_string(&self) -> String {
         format!("{:?}s", self)
+    }
+}
+
+mod test {
+    #[test]
+    fn test_item_type_iter() {
+        use strum::IntoEnumIterator;
+        assert_eq!(super::ItemType::iter().count(), 9);
+    }
+
+    #[test]
+    fn test_item_type_display() {
+        assert_eq!(super::ItemType::WondrousItem.to_string(), "Wondrous Item");
+    }
+
+    #[test]
+    fn test_item_rarity_display() {
+        assert_eq!(super::ItemRarity::VeryRare.to_string(), "Very Rare");
+        assert_eq!(super::ItemRarity::Unknown.to_string(), "Unknown Rarity");
+    }
+
+    #[test]
+    fn test_attuneable_display() {
+        assert_eq!(
+            super::Attuneable {
+                alignments: Some(vec![crate::Alignment::ChaoticGood])
+            }
+            .to_string(),
+            "(requires attunement, chaotic good)"
+        );
+        assert_eq!(
+            super::Attuneable {
+                alignments: None
+            }
+            .to_string(),
+            "(requires attunement)"
+        );
+    }
+
+    #[test]
+    fn test_charge_display() {
+        assert_eq!(
+            super::Charge {
+                num: 1,
+                time: super::TimeDivision::Round
+            }
+            .to_string(),
+            "1/Round"
+        );
+    }
+
+    #[test]
+    fn test_time_division_display() {
+        assert_eq!(super::TimeDivision::Round.to_string(), "Round");
+    }
+
+    #[test]
+    fn test_time_division_to_plural_string() {
+        assert_eq!(super::TimeDivision::Round.to_plural_string(), "Rounds");
     }
 }
