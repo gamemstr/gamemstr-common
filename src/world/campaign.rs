@@ -5,13 +5,13 @@ use self::player::Player;
 
 pub mod player;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Campaign {
     pub id: String,
     pub name: String,
     pub description: String,
     pub world_id: String,
-    pub players: Vec<Player>,
+    pub players: Option<Vec<Player>>,
 }
 
 impl Campaign {
@@ -21,7 +21,7 @@ impl Campaign {
             name,
             description,
             world_id,
-            players: Vec::new(),
+            players: None,
         }
     }
 }

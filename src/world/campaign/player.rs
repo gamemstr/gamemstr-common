@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{creature::Creature, item::Item, spell::Spell, world::campaign::Campaign};
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Player {
     pub creature: Creature,
     pub race: Race,
@@ -38,7 +38,7 @@ impl Player {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Race {
     Human,
     Elf,
@@ -56,7 +56,7 @@ impl fmt::Display for Race {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Class {
     Barbarian,
     Bard,

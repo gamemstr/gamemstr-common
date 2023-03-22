@@ -15,7 +15,7 @@ impl Monster {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum MonsterType {
     Aberration,
     Beast,
