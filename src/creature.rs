@@ -251,7 +251,7 @@ impl fmt::Display for Language {
 pub enum CreatureType {
     Monster(MonsterType),
     Player,
-    NPC
+    NPC,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

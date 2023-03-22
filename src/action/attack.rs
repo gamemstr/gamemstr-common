@@ -18,7 +18,9 @@ impl fmt::Display for Attack {
         match &self {
             Attack::MeleeWeaponAttack(x) => write!(f, "{}", x.to_string().replace("%s", "Weapon")),
             Attack::RangedWeaponAttack(x) => write!(f, "{}", x.to_string().replace("%s", "Weapon")),
-            Attack::MeleeOrRangedWeaponAttack(x) => write!(f, "{}", x.to_string().replace("%s", "Weapon")),
+            Attack::MeleeOrRangedWeaponAttack(x) => {
+                write!(f, "{}", x.to_string().replace("%s", "Weapon"))
+            }
             Attack::MeleeSpellAttack(x) => write!(f, "{}", x.to_string().replace("%s", "Spell")),
             Attack::RangedSpellAttack(x) => write!(f, "{}", x.to_string().replace("%s", "Spell")),
         }
@@ -74,10 +76,13 @@ impl fmt::Display for MeleeOrRanged {
             "Melee or Ranged %s Attack",
             self.modifier,
             self.reach.unwrap_or(5),
-            self.range.as_ref().unwrap_or(&Range {
-                close_range: 0,
-                long_range: 0
-            }).to_string(),
+            self.range
+                .as_ref()
+                .unwrap_or(&Range {
+                    close_range: 0,
+                    long_range: 0
+                })
+                .to_string(),
             self.target_type.to_string(),
             self.damage.to_string(),
             self.damage_type,
@@ -105,10 +110,13 @@ impl fmt::Display for Ranged {
             self.name,
             "Ranged %s Attack",
             self.modifier,
-            self.range.as_ref().unwrap_or(&Range {
-                close_range: 0,
-                long_range: 0
-            }).to_string(),
+            self.range
+                .as_ref()
+                .unwrap_or(&Range {
+                    close_range: 0,
+                    long_range: 0
+                })
+                .to_string(),
             self.target_type.to_string(),
             self.damage.to_string(),
             self.damage_type,
