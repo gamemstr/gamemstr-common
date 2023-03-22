@@ -1,6 +1,7 @@
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
+use strum::EnumIter;
 
 use crate::{action::Action, spell::Spell, Alignment, ConditionType, OtherAttribute};
 
@@ -21,7 +22,7 @@ pub struct Item {
     pub actions: Option<Vec<Action>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, EnumIter)]
 pub enum ItemType {
     Armor,
     Potion,
@@ -43,7 +44,7 @@ impl fmt::Display for ItemType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, EnumIter)]
 pub enum ItemRarity {
     Common,
     Uncommon,
@@ -89,7 +90,7 @@ impl fmt::Display for Attuneable {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, EnumIter)]
 pub enum WeaponType {
     Sword,
 }
@@ -100,7 +101,7 @@ impl fmt::Display for WeaponType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, EnumIter)]
 pub enum ArmorType {
     Shield,
 }
@@ -123,7 +124,7 @@ impl fmt::Display for Charge {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, EnumIter)]
 pub enum TimeDivision {
     Round,
     Second,

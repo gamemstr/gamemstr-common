@@ -10,6 +10,7 @@
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
+use strum::EnumIter;
 
 pub mod action;
 pub mod creature;
@@ -139,7 +140,7 @@ impl fmt::Display for OtherAttribute {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, EnumIter)]
 pub enum Alignment {
     AnyAlignment,
     AnyChaotic,
