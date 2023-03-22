@@ -6,7 +6,7 @@ pub mod location;
 pub mod map;
 pub mod npc;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct World {
     pub id: String,
     pub name: String,

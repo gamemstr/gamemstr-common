@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{DamageType, DieStat};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Spell {
     pub id: i32,
     pub name: String,
@@ -21,7 +21,7 @@ pub struct Spell {
     pub save: Option<Save>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum SpellLevel {
     Cantrip,
     Level1,
@@ -52,7 +52,7 @@ impl fmt::Display for SpellLevel {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum CastingTime {
     Action,
     BonusAction,
@@ -73,7 +73,7 @@ impl fmt::Display for CastingTime {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Duration {
     Instantaneous,
     Concentration,
@@ -100,7 +100,7 @@ impl fmt::Display for Duration {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum SpellRange {
     S,
     Touch,
@@ -117,7 +117,7 @@ impl fmt::Display for SpellRange {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Area {
     Cube(i32),
     Sphere(i32),
@@ -140,7 +140,7 @@ impl fmt::Display for Area {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Components {
     V,
     S,
@@ -165,7 +165,7 @@ impl fmt::Display for Components {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Save {
     Strength(Option<i32>),
     Dexterity(Option<i32>),

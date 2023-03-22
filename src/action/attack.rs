@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{DamageType, DieStat};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Attack {
     MeleeWeaponAttack(Melee),
     RangedWeaponAttack(Ranged),
@@ -27,7 +27,7 @@ impl fmt::Display for Attack {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Melee {
     name: String,
     modifier: i32,
@@ -55,7 +55,7 @@ impl fmt::Display for Melee {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MeleeOrRanged {
     name: String,
     modifier: i32,
@@ -91,7 +91,7 @@ impl fmt::Display for MeleeOrRanged {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Ranged {
     name: String,
     modifier: i32,
@@ -125,7 +125,7 @@ impl fmt::Display for Ranged {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum TargetType {
     OneTarget,
     MultipleTargets(i32),
@@ -168,7 +168,7 @@ impl fmt::Display for TargetType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Range {
     pub close_range: i32,
     pub long_range: i32,

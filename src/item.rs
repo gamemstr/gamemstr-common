@@ -5,7 +5,7 @@ use strum::EnumIter;
 
 use crate::{action::Action, spell::Spell, Alignment, ConditionType, OtherAttribute};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Item {
     pub id: String,
     pub name: String,
@@ -22,7 +22,7 @@ pub struct Item {
     pub actions: Option<Vec<Action>>,
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum ItemType {
     Armor,
     Potion,
@@ -44,7 +44,7 @@ impl fmt::Display for ItemType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum ItemRarity {
     Common,
     Uncommon,
@@ -66,7 +66,7 @@ impl fmt::Display for ItemRarity {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Attuneable {
     pub alignments: Option<Vec<Alignment>>,
 }
@@ -92,7 +92,7 @@ impl fmt::Display for Attuneable {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum WeaponType {
     Sword,
 }
@@ -103,7 +103,7 @@ impl fmt::Display for WeaponType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum ArmorType {
     Shield,
 }
@@ -114,7 +114,7 @@ impl fmt::Display for ArmorType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Charge {
     pub num: i32,
     pub time: TimeDivision,
@@ -126,7 +126,7 @@ impl fmt::Display for Charge {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum TimeDivision {
     Round,
     Second,

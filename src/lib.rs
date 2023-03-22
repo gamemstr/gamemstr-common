@@ -19,7 +19,7 @@ pub mod monster;
 pub mod spell;
 pub mod world;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum DamageType {
     Slashing,
     Piercing,
@@ -42,7 +42,7 @@ impl fmt::Display for DamageType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ConditionType {
     Blinded,
     Charmed,
@@ -67,7 +67,7 @@ impl fmt::Display for ConditionType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Die {
     D4,
     D6,
@@ -102,7 +102,7 @@ impl Die {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DieStat {
     pub die_count: i32,
     pub die_type: Die,
@@ -127,7 +127,7 @@ impl fmt::Display for DieStat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OtherAttribute {
     pub title: String,
     pub description: String,
@@ -140,7 +140,7 @@ impl fmt::Display for OtherAttribute {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum Alignment {
     AnyAlignment,
     AnyChaotic,
