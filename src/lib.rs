@@ -18,20 +18,7 @@ pub mod monster;
 pub mod spell;
 pub mod world;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
-pub struct AttributeInfo {
-    pub name: String,
-    pub description: String,
-    // TODO: Implement a way system for identifying which TTRPGS an attribute is used in
-}
-
-impl fmt::Display for AttributeInfo {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}: {}", self.name, self.description)
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum DamageType {
     Slashing,
     Piercing,
@@ -54,7 +41,7 @@ impl fmt::Display for DamageType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum ConditionType {
     Blinded,
     Charmed,
@@ -79,7 +66,7 @@ impl fmt::Display for ConditionType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Die {
     D4,
     D6,
@@ -114,7 +101,7 @@ impl Die {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct DieStat {
     pub die_count: i32,
     pub die_type: Die,
@@ -139,7 +126,7 @@ impl fmt::Display for DieStat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct OtherAttribute {
     pub title: String,
     pub description: String,
@@ -152,8 +139,19 @@ impl fmt::Display for OtherAttribute {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Alignment {
+    AnyAlignment,
+    AnyChaotic,
+    AnyEvil,
+    AnyGood,
+    AnyLawful,
+    AnyNeutral,
+    AnyNonChaotic,
+    AnyNonEvil,
+    AnyNonGood,
+    AnyNonLawful,
+    AnyNonNeutral,
     ChaoticEvil,
     ChaoticNeutral,
     ChaoticGood,
@@ -163,22 +161,51 @@ pub enum Alignment {
     NeutralEvil,
     TrueNeutral,
     NeutralGood,
+    TypicallyChaoticEvil,
+    TypicallyChaoticNeutral,
+    TypicallyChaoticGood,
+    TypicallyLawfulEvil,
+    TypicallyLawfulNeutral,
+    TypicallyLawfulGood,
+    TypicallyNeutralEvil,
+    TypicallyTrueNeutral,
+    TypicallyNeutralGood,
     Unaligned,
 }
 
 impl fmt::Display for Alignment {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            Alignment::ChaoticEvil => write!(f, "{}", String::from("chaotic evil")),
-            Alignment::ChaoticNeutral => write!(f, "{}", String::from("chaotic neutral")),
-            Alignment::ChaoticGood => write!(f, "{}", String::from("chaotic good")),
-            Alignment::LawfulEvil => write!(f, "{}", String::from("lawful evil")),
-            Alignment::LawfulNeutral => write!(f, "{}", String::from("lawful neutral")),
-            Alignment::LawfulGood => write!(f, "{}", String::from("lawful good")),
-            Alignment::NeutralEvil => write!(f, "{}", String::from("neutral evil")),
-            Alignment::TrueNeutral => write!(f, "{}", String::from("true neutral")),
-            Alignment::NeutralGood => write!(f, "{}", String::from("neutral good")),
-            Alignment::Unaligned => write!(f, "{}", String::from("unaligned")),
+            Alignment::AnyAlignment => write!(f, "any alignment"),
+            Alignment::AnyChaotic => write!(f, "any chaotic alignment"),
+            Alignment::AnyEvil => write!(f, "any evil alignment"),
+            Alignment::AnyGood => write!(f, "any good alignment"),
+            Alignment::AnyLawful => write!(f, "any lawful alignment"),
+            Alignment::AnyNeutral => write!(f, "any neutral alignment"),
+            Alignment::AnyNonChaotic => write!(f, "any non-chaotic alignment"),
+            Alignment::AnyNonEvil => write!(f, "any non-evil alignment"),
+            Alignment::AnyNonGood => write!(f, "any non-good alignment"),
+            Alignment::AnyNonLawful => write!(f, "any non-lawful alignment"),
+            Alignment::AnyNonNeutral => write!(f, "any non-neutral alignment"),
+            Alignment::ChaoticEvil => write!(f, "chaotic evil"),
+            Alignment::ChaoticNeutral => write!(f, "chaotic neutral"),
+            Alignment::ChaoticGood => write!(f, "chaotic good"),
+            Alignment::LawfulEvil => write!(f, "lawful evil"),
+            Alignment::LawfulNeutral => write!(f, "lawful neutral"),
+            Alignment::LawfulGood => write!(f, "lawful good"),
+            Alignment::NeutralEvil => write!(f, "neutral evil"),
+            Alignment::TrueNeutral => write!(f, "true neutral"),
+            Alignment::NeutralGood => write!(f, "neutral good"),
+            Alignment::TypicallyChaoticEvil => write!(f, "typically chaotic evil"),
+            Alignment::TypicallyChaoticNeutral => write!(f, "typically chaotic neutral"),
+            Alignment::TypicallyChaoticGood => write!(f, "typically chaotic good"),
+            Alignment::TypicallyLawfulEvil => write!(f, "typically lawful evil"),
+            Alignment::TypicallyLawfulNeutral => write!(f, "typically lawful neutral"),
+            Alignment::TypicallyLawfulGood => write!(f, "typically lawful good"),
+            Alignment::TypicallyNeutralEvil => write!(f, "typically neutral evil"),
+            Alignment::TypicallyTrueNeutral => write!(f, "typically true neutral"),
+            Alignment::TypicallyNeutralGood => write!(f, "typically neutral good"),
+            Alignment::Unaligned => write!(f, "unaligned"),
         }
     }
 }

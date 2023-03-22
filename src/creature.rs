@@ -1,107 +1,39 @@
 use core::fmt;
-use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 
 use crate::{
-    action::Action, monster::MonsterType, Alignment, AttributeInfo, ConditionType, DamageType, Die,
-    DieStat, OtherAttribute,
+    action::Action, monster::MonsterType, Alignment, ConditionType, DamageType, Die, DieStat,
+    OtherAttribute,
 };
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Creature {
     pub id: String,
     pub name: String,
-    pub attributes: HashMap<AttributeType, Attribute>,
+    pub creature_type: CreatureType,
+    pub alignment: Alignment,
+    pub armor_class: i32,
+    pub health_points: Health,
+    pub speed: MovementSpeed,
+    pub stats: Vec<Stat>,
+    pub saving_throws: Option<Vec<Stat>>,
+    pub damage_resistances: Option<Vec<DamageType>>,
+    pub damage_immunities: Option<Vec<DamageType>>,
+    pub damage_vulnerabilities: Option<Vec<DamageType>>,
+    pub condition_immunities: Option<Vec<ConditionType>>,
+    pub skills: Option<Vec<Skill>>,
+    pub senses: Option<Vec<Sense>>,
+    pub languages: Option<Vec<Language>>,
+    pub challenge_rating: String,
+    pub racial_traits: Option<Vec<RacialTrait>>,
+    pub description: Option<String>,
+    pub actions: Option<Vec<Action>>,
+    pub lair: Option<Lair>,
+    pub others: Option<Vec<OtherAttribute>>,
 }
 
-impl Creature {
-    pub fn new(name: String, attributes: HashMap<AttributeType, Attribute>) -> Self {
-        Self {
-            id: Uuid::new_v4().to_string(),
-            name,
-            attributes,
-        }
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum AttributeType {
-    CreatureType(AttributeInfo),
-    Alignment(AttributeInfo),
-    ArmorClass(AttributeInfo),
-    HealthPoints(AttributeInfo),
-    Speed(AttributeInfo),
-    Stats(AttributeInfo),
-    SavingThrows(AttributeInfo),
-    DamageResistances(AttributeInfo),
-    DamageImmunities(AttributeInfo),
-    DamageVulnerabilities(AttributeInfo),
-    ConditionImmunities(AttributeInfo),
-    Skills(AttributeInfo),
-    Senses(AttributeInfo),
-    Languages(AttributeInfo),
-    ChallengeRating(AttributeInfo),
-    RacialTraits(AttributeInfo),
-    Description(AttributeInfo),
-    Actions(AttributeInfo),
-    Lair(AttributeInfo),
-    Other(AttributeInfo),
-}
-
-impl fmt::Display for AttributeType {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match &self {
-            AttributeType::ArmorClass(i) => write!(f, "{}", i.to_string()),
-            AttributeType::HealthPoints(i) => write!(f, "{}", i.to_string()),
-            AttributeType::SavingThrows(i) => write!(f, "{}", i.to_string()),
-            AttributeType::DamageResistances(i) => write!(f, "{}", i.to_string()),
-            AttributeType::DamageImmunities(i) => write!(f, "{}", i.to_string()),
-            AttributeType::DamageVulnerabilities(i) => write!(f, "{}", i.to_string()),
-            AttributeType::ConditionImmunities(i) => write!(f, "{}", i.to_string()),
-            AttributeType::ChallengeRating(i) => write!(f, "{}", i.to_string()),
-            AttributeType::RacialTraits(i) => write!(f, "{}", i.to_string()),
-            AttributeType::CreatureType(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Alignment(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Speed(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Stats(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Skills(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Senses(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Languages(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Description(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Actions(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Lair(i) => write!(f, "{}", i.to_string()),
-            AttributeType::Other(i) => write!(f, "{}", i.to_string()),
-        }
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum Attribute {
-    CreatureType(CreatureType),
-    Alignment(Alignment),
-    ArmorClass(i32),
-    HealthPoints(Health),
-    Speed(MovementSpeed),
-    Stat(Stat),
-    SavingThrow(Stat),
-    DamageResistance(DamageType),
-    DamageImmunity(DamageType),
-    DamageVulnerability(DamageType),
-    ConditionImmunity(ConditionType),
-    Skill(Skill),
-    Sense(Sense),
-    Language(Language),
-    ChallengeRating(String),
-    RacialTrait(RacialTrait),
-    Description(String),
-    Action(Action),
-    Lair(Lair),
-    Other(OtherAttribute),
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum MovementSpeed {
     Walk(u8),
     Swim(u8),
@@ -129,7 +61,7 @@ impl fmt::Display for MovementSpeed {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Stat {
     pub stat_type: StatType,
     pub value: i32,
@@ -146,7 +78,7 @@ impl Stat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum StatType {
     Strength,
     Dexterity,
@@ -156,7 +88,7 @@ pub enum StatType {
     Charisma,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Health {
     pub health: DieStat,
 }
@@ -179,7 +111,7 @@ impl fmt::Display for Health {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Skill {
     pub skill_type: SkillType,
     pub modifier: i32,
@@ -191,7 +123,7 @@ impl fmt::Display for Skill {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum SkillType {
     Acrobatics,
     AnimalHandling,
@@ -238,7 +170,7 @@ impl fmt::Display for SkillType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Sense {
     Blindsight(u32),
     Darkvision(u32),
@@ -257,7 +189,7 @@ impl fmt::Display for Sense {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Language {
     Abanasinia,
     Abyssal,
@@ -315,19 +247,20 @@ impl fmt::Display for Language {
     }
 }
 
-// TODO:
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum CreatureType {
     Monster(MonsterType),
+    Player,
+    NPC
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct RacialTrait {
     pub name: String,
     pub description: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Lair {
     pub name: String,
     pub description: String,
@@ -335,7 +268,7 @@ pub struct Lair {
     pub regional_effects: Vec<Paragraph>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Paragraph {
     pub paragraph: String,
     pub bullet: bool,

@@ -1,49 +1,27 @@
 use core::fmt;
-use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    action::Action, spell::Spell, Alignment, AttributeInfo, ConditionType, OtherAttribute,
-};
+use crate::{action::Action, spell::Spell, Alignment, ConditionType, OtherAttribute};
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Item {
     pub id: String,
     pub name: String,
-    pub attributes: BTreeMap<AttributeType, Attribute>,
+    pub item_type: ItemType,
+    pub rarity: ItemRarity,
+    pub attunement: Option<Attuneable>,
+    pub weapon_type: Option<WeaponType>,
+    pub armor_type: Option<ArmorType>,
+    pub conditions: Option<Vec<ConditionType>>,
+    pub attached_spell: Option<Spell>,
+    pub has_charges: Option<Charge>,
+    pub inventory: Option<Vec<Item>>,
+    pub others: Option<Vec<OtherAttribute>>,
+    pub actions: Option<Vec<Action>>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
-pub enum AttributeType {
-    ItemType(AttributeInfo),
-    ItemRarity(AttributeInfo),
-    Attunement(AttributeInfo),
-    EffectType(AttributeInfo),
-    WeaponType(AttributeInfo),
-    ArmorType(AttributeInfo),
-    Conditions(AttributeInfo),
-    AttachedSpells(AttributeInfo),
-    HasCharges(AttributeInfo),
-    Other(AttributeInfo),
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
-pub enum Attribute {
-    ItemType(ItemType),
-    ItemRarity(ItemRarity),
-    Attunement(Attuneable),
-    WeaponType(WeaponType),
-    ArmorType(ArmorType),
-    Conditions(ConditionType),
-    AttachedSpell(Spell),
-    HasCharges(Charge),
-    Inventory(Vec<Item>),
-    Other(OtherAttribute),
-    Action(Action),
-}
-
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum ItemType {
     Armor,
     Potion,
@@ -65,7 +43,7 @@ impl fmt::Display for ItemType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum ItemRarity {
     Common,
     Uncommon,
@@ -87,9 +65,8 @@ impl fmt::Display for ItemRarity {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Attuneable {
-    pub attuneable: bool,
     pub alignments: Vec<Alignment>,
 }
 
@@ -97,12 +74,7 @@ impl fmt::Display for Attuneable {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "({}{}{:?})",
-            if self.attuneable {
-                "requires attunement "
-            } else {
-                ""
-            },
+            "(requires attunement{}{:?})",
             if !self.alignments.is_empty() {
                 ""
             } else {
@@ -117,7 +89,7 @@ impl fmt::Display for Attuneable {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum WeaponType {
     Sword,
 }
@@ -128,7 +100,7 @@ impl fmt::Display for WeaponType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum ArmorType {
     Shield,
 }
@@ -139,7 +111,7 @@ impl fmt::Display for ArmorType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Charge {
     pub num: i32,
     pub time: TimeDivision,
@@ -151,7 +123,7 @@ impl fmt::Display for Charge {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum TimeDivision {
     Round,
     Second,
