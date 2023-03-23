@@ -42,7 +42,7 @@ impl fmt::Display for DamageType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum ConditionType {
     Blinded,
     Charmed,
