@@ -29,13 +29,13 @@ impl fmt::Display for Attack {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Melee {
-    name: String,
-    modifier: i32,
-    reach: Option<i32>,
-    target_type: TargetType,
-    damage: DieStat,
-    damage_type: DamageType,
-    description: String,
+    pub name: String,
+    pub modifier: i32,
+    pub reach: Option<i32>,
+    pub target_type: TargetType,
+    pub damage: DieStat,
+    pub damage_type: DamageType,
+    pub description: String,
 }
 
 impl fmt::Display for Melee {
@@ -57,14 +57,14 @@ impl fmt::Display for Melee {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MeleeOrRanged {
-    name: String,
-    modifier: i32,
-    reach: Option<i32>,
-    range: Option<Range>,
-    target_type: TargetType,
-    damage: DieStat,
-    damage_type: DamageType,
-    description: String,
+    pub name: String,
+    pub modifier: i32,
+    pub reach: Option<i32>,
+    pub range: Option<Range>,
+    pub target_type: TargetType,
+    pub damage: DieStat,
+    pub damage_type: DamageType,
+    pub description: String,
 }
 
 impl fmt::Display for MeleeOrRanged {
@@ -93,13 +93,13 @@ impl fmt::Display for MeleeOrRanged {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Ranged {
-    name: String,
-    modifier: i32,
-    range: Option<Range>,
-    target_type: TargetType,
-    damage: DieStat,
-    damage_type: DamageType,
-    description: String,
+    pub name: String,
+    pub modifier: i32,
+    pub range: Option<Range>,
+    pub target_type: TargetType,
+    pub damage: DieStat,
+    pub damage_type: DamageType,
+    pub description: String,
 }
 
 impl fmt::Display for Ranged {
