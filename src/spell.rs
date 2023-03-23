@@ -6,7 +6,7 @@ use crate::{DamageType, DieStat};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Spell {
-    pub id: i32,
+    pub id: String,
     pub name: String,
     pub description: String,
     pub level: SpellLevel,
