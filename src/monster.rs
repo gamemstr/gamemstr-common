@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::creature::Creature;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Monster {
     pub creature: Creature,
 }
@@ -15,7 +15,7 @@ impl Monster {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MonsterType {
     Aberration,
     Beast,
