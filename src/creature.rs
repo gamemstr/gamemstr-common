@@ -7,7 +7,7 @@ use crate::{
     OtherAttribute,
 };
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Creature {
     pub id: String,
     pub name: String,
@@ -33,7 +33,7 @@ pub struct Creature {
     pub others: Option<Vec<OtherAttribute>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MovementSpeed {
     Walk(u8),
     Swim(u8),
@@ -61,7 +61,7 @@ impl fmt::Display for MovementSpeed {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Stat {
     pub stat_type: StatType,
     pub value: i32,
@@ -78,7 +78,7 @@ impl Stat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum StatType {
     Strength,
     Dexterity,
@@ -88,7 +88,7 @@ pub enum StatType {
     Charisma,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Health {
     pub health: DieStat,
 }
@@ -111,7 +111,7 @@ impl fmt::Display for Health {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Skill {
     pub skill_type: SkillType,
     pub modifier: i32,
@@ -123,7 +123,7 @@ impl fmt::Display for Skill {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum SkillType {
     Acrobatics,
     AnimalHandling,
@@ -170,7 +170,7 @@ impl fmt::Display for SkillType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Sense {
     Blindsight(u32),
     Darkvision(u32),
@@ -189,7 +189,7 @@ impl fmt::Display for Sense {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Language {
     Abanasinia,
     Abyssal,
@@ -247,20 +247,20 @@ impl fmt::Display for Language {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum CreatureType {
     Monster(MonsterType),
     Player,
     NPC,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RacialTrait {
     pub name: String,
     pub description: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Lair {
     pub name: String,
     pub description: String,
@@ -268,7 +268,7 @@ pub struct Lair {
     pub regional_effects: Vec<Paragraph>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Paragraph {
     pub paragraph: String,
     pub bullet: bool,
