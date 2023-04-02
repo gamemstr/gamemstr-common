@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::creature::Creature;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NPC {
     pub creature: Creature,
     pub world_id: String,

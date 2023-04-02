@@ -36,7 +36,7 @@ impl Map {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MapCoordinates {
     pub map_id: String,
     pub x: u32,

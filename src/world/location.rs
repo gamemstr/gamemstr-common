@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use super::{map::MapCoordinates, npc::NPC};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Location {
     pub id: String,
     pub name: String,
