@@ -5,12 +5,12 @@ use self::attack::Attack;
 
 pub mod attack;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum ActionType {
     Attack(Attack),
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Action {
     pub id: String,
     pub action: ActionType,
