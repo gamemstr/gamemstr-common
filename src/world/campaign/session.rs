@@ -19,7 +19,7 @@ impl Session {
             name,
             description,
             campaign_id,
-            notes: Vec::new(),
+            notes: vec![Note::default()],
             plan: Plan::default(),
             recap: Recap::default(),
         }
@@ -31,6 +31,26 @@ pub struct Note {
     pub id: String,
     pub name: String,
     pub description: String,
+}
+
+impl Note {
+    pub fn new(name: String, description: String) -> Self {
+        Self {
+            id: Uuid::new_v4().to_string(),
+            name,
+            description,
+        }
+    }
+}
+
+impl Default for Note {
+    fn default() -> Self {
+        Self {
+            id: Uuid::new_v4().to_string(),
+            name: String::default(),
+            description: String::default(),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
