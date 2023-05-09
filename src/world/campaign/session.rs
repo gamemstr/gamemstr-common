@@ -9,6 +9,7 @@ pub struct Session {
     pub campaign_id: String,
     pub notes: Vec<Note>,
     pub plan: Plan,
+    pub recap: Recap,
 }
 
 impl Session {
@@ -19,7 +20,8 @@ impl Session {
             description,
             campaign_id,
             notes: Vec::new(),
-            plan: Plan::new(),
+            plan: Plan::default(),
+            recap: Recap::default(),
         }
     }
 }
@@ -31,29 +33,8 @@ pub struct Note {
     pub description: String,
 }
 
-impl Note {
-    pub fn new(name: String, description: String) -> Self {
-        Self {
-            id: Uuid::new_v4().to_string(),
-            name,
-            description,
-        }
-    }
-}
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct Plan(String);
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Plan {
-    pub id: String,
-    pub name: String,
-    pub description: String,
-}
-
-impl Plan {
-    pub fn new() -> Self {
-        Self {
-            id: Uuid::new_v4().to_string(),
-            name: String::from("Plan"),
-            description: String::from("A plan for the session"),
-        }
-    }
-}
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct Recap(String);
