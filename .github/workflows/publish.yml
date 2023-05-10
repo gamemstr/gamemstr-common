@@ -1,0 +1,38 @@
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:        
+      - '*'           # Push events to every tag not containing /
+      # Allow manual triggering
+  workflow_dispatch:
+jobs:
+  publish:
+    name: Publish
+    # Specify OS
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v3
+      with:
+       fetch-depth: 0
+      
+    - name: Get tag
+      id: tag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      
+    - name: Test Version
+      run: if ! grep ${TAG} Cargo.toml; then echo Verion in Cargo.toml does not match tag; exit 1; fi
+      env:
+        TAG: ${{ steps.tag.outputs.tag }}
+        
+    - name: Install stable toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+       profile: minimal
+       toolchain: stable
+       override: true
+       
+    - run: cargo publish --token ${CRATES_TOKEN}
+      env:
+        CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
