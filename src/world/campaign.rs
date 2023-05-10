@@ -4,6 +4,7 @@ use uuid::Uuid;
 use self::player::Player;
 
 pub mod player;
+pub mod session;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Campaign {
