@@ -6,7 +6,7 @@ use self::player::Player;
 pub mod player;
 pub mod session;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Campaign {
     pub id: String,
     pub name: String,
