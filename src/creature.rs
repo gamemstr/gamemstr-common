@@ -3,9 +3,12 @@ use core::fmt;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    action::Action, monster::MonsterType, Alignment, ConditionType, DamageType, Die, DieStat,
+    action::Action, Alignment, ConditionType, DamageType, Die, DieStat,
     OtherAttribute,
 };
+
+pub mod monster;
+pub mod npc;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Creature {
@@ -249,7 +252,7 @@ impl fmt::Display for Language {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum CreatureType {
-    Monster(MonsterType),
+    Monster(monster::MonsterType),
     Player,
     NPC,
 }

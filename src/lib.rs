@@ -15,7 +15,6 @@ use strum::EnumIter;
 pub mod action;
 pub mod creature;
 pub mod item;
-pub mod monster;
 pub mod spell;
 pub mod world;
 

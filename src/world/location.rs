@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 
-use super::{map::MapCoordinates, npc::NPC};
+use crate::creature::npc::NPC;
+
+use super::map::MapCoordinates;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Location {
