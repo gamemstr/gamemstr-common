@@ -195,6 +195,82 @@ impl Player {
     pub fn others(&self) -> Option<&Vec<OtherAttribute>> {
         self.creature.others()
     }
+
+    pub fn set_name(&mut self, name: String) {
+        self.creature.set_name(name);
+    }
+
+    pub fn set_alignment(&mut self, alignment: Alignment) {
+        self.creature.set_alignment(alignment);
+    }
+
+    pub fn set_armor_class(&mut self, armor_class: i32) {
+        self.creature.set_armor_class(armor_class);
+    }
+
+    pub fn set_hit_points(&mut self, hit_points: Health) {
+        self.creature.set_health_points(hit_points);
+    }
+
+    pub fn set_speed(&mut self, speed: MovementSpeed) {
+        self.creature.set_speed(speed);
+    }
+
+    pub fn set_stats(&mut self, stats: Vec<Stat>) {
+        self.creature.set_stats(stats);
+    }
+
+    pub fn set_saving_throws(&mut self, saving_throws: Option<Vec<Stat>>) {
+        self.creature.set_saving_throws(saving_throws);
+    }
+
+    pub fn set_damage_resistances(&mut self, damage_resistances: Option<Vec<DamageType>>) {
+        self.creature.set_damage_resistances(damage_resistances);
+    }
+
+    pub fn set_damage_immunities(&mut self, damage_immunities: Option<Vec<DamageType>>) {
+        self.creature.set_damage_immunities(damage_immunities);
+    }
+
+    pub fn set_damage_vulnerabilities(&mut self, damage_vulnerabilities: Option<Vec<DamageType>>) {
+        self.creature.set_damage_vulnerabilities(damage_vulnerabilities);
+    }
+
+    pub fn set_condition_immunities(&mut self, condition_immunities: Option<Vec<ConditionType>>) {
+        self.creature.set_condition_immunities(condition_immunities);
+    }
+
+    pub fn set_skills(&mut self, skills: Option<Vec<Skill>>) {
+        self.creature.set_skills(skills);
+    }
+
+    pub fn set_senses(&mut self, senses: Option<Vec<Sense>>) {
+        self.creature.set_senses(senses);
+    }
+
+    pub fn set_languages(&mut self, languages: Option<Vec<Language>>) {
+        self.creature.set_languages(languages);
+    }
+
+    pub fn set_challenge_rating(&mut self, challenge_rating: String) {
+        self.creature.set_challenge_rating(challenge_rating);
+    }
+
+    pub fn set_racial_traits(&mut self, racial_traits: Option<Vec<RacialTrait>>) {
+        self.creature.set_racial_traits(racial_traits);
+    }
+
+    pub fn set_description(&mut self, description: Option<String>) {
+        self.creature.set_description(description);
+    }
+
+    pub fn set_actions(&mut self, actions: Option<Vec<Action>>) {
+        self.creature.set_actions(actions);
+    }
+
+    pub fn set_others(&mut self, others: Option<Vec<OtherAttribute>>) {
+        self.creature.set_others(others);
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
