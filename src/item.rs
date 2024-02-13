@@ -81,8 +81,11 @@ impl fmt::Display for Attuneable {
             } else {
                 format!(
                     "{}{}",
-                    ", ", 
-                    self.alignments.as_ref().unwrap().iter()
+                    ", ",
+                    self.alignments
+                        .as_ref()
+                        .unwrap()
+                        .iter()
                         .map(|x| x.to_string() + ",")
                         .collect::<String>()
                         .trim_end_matches(",")
@@ -177,10 +180,7 @@ mod test {
             "(requires attunement, chaotic good)"
         );
         assert_eq!(
-            super::Attuneable {
-                alignments: None
-            }
-            .to_string(),
+            super::Attuneable { alignments: None }.to_string(),
             "(requires attunement)"
         );
     }
