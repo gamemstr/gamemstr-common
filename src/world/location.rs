@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::creature::npc::NPC;
+use crate::creature::Creature;
 
 use super::map::MapCoordinates;
 
@@ -11,5 +11,5 @@ pub struct Location {
     pub description: String,
     pub world_id: String,
     pub map_coordinates: MapCoordinates,
-    pub npcs: Vec<NPC>,
+    pub npcs: Vec<Creature>,
 }
