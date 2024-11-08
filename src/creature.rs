@@ -329,7 +329,7 @@ impl Health {
 
 impl fmt::Display for Health {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} ({})", self.health.value(), self.health.to_string(),)
+        write!(f, "{} ({})", self.health.value(), self.health,)
     }
 }
 
@@ -341,7 +341,7 @@ pub struct Skill {
 
 impl fmt::Display for Skill {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} {}", self.skill_type.to_string(), self.modifier)
+        write!(f, "{} {}", self.skill_type, self.modifier)
     }
 }
 

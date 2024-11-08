@@ -125,7 +125,7 @@ pub struct Charge {
 
 impl fmt::Display for Charge {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}/{}", self.num, self.time.to_string())
+        write!(f, "{}/{}", self.num, self.time)
     }
 }
 

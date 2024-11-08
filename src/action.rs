@@ -30,7 +30,7 @@ pub enum ActionType {
 impl fmt::Display for ActionType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            ActionType::Attack(x) => write!(f, "{}", x.to_string()),
+            ActionType::Attack(x) => write!(f, "{}", x),
         }
     }
 }

@@ -47,8 +47,8 @@ impl fmt::Display for Melee {
             "Melee %s Attack",
             self.modifier,
             self.reach.unwrap_or(5),
-            self.target_type.to_string(),
-            self.damage.to_string(),
+            self.target_type,
+            self.damage,
             self.damage_type,
             self.description
         )
@@ -82,9 +82,9 @@ impl fmt::Display for MeleeOrRanged {
                     close_range: 0,
                     long_range: 0
                 })
-                .to_string(),
-            self.target_type.to_string(),
-            self.damage.to_string(),
+                ,
+            self.target_type,
+            self.damage,
             self.damage_type,
             self.description
         )
@@ -116,9 +116,9 @@ impl fmt::Display for Ranged {
                     close_range: 0,
                     long_range: 0
                 })
-                .to_string(),
-            self.target_type.to_string(),
-            self.damage.to_string(),
+                ,
+            self.target_type,
+            self.damage,
             self.damage_type,
             self.description
         )

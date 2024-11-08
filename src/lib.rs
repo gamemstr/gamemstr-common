@@ -120,7 +120,7 @@ impl fmt::Display for DieStat {
             f,
             "{}{} + {}",
             self.die_count,
-            self.die_type.to_string(),
+            self.die_type,
             self.extra
         )
     }
