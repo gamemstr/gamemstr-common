@@ -31,6 +31,7 @@ pub struct Creature {
 }
 
 impl Creature {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         id: String,
         name: String,
