@@ -155,7 +155,7 @@ impl Creature {
     }
 
     pub fn description(&self) -> Option<&str> {
-        self.description.as_ref().map(|s| s.as_str())
+        self.description.as_deref()
     }
 
     pub fn actions(&self) -> Option<&Vec<Action>> {
