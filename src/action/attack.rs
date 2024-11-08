@@ -42,9 +42,8 @@ impl fmt::Display for Melee {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "{}. {}: {} to hit, reach {}, {}. Hit: {} {}. {}",
+            "{}. Melee %s Attack: {} to hit, reach {}, {}. Hit: {} {}. {}",
             self.name,
-            "Melee %s Attack",
             self.modifier,
             self.reach.unwrap_or(5),
             self.target_type,
@@ -71,9 +70,8 @@ impl fmt::Display for MeleeOrRanged {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "{}. {}: {} to hit, reach {}, range {}, {}. Hit: {} {}. {}",
+            "{}. Melee or Ranged %s Attack: {} to hit, reach {}, range {}, {}. Hit: {} {}. {}",
             self.name,
-            "Melee or Ranged %s Attack",
             self.modifier,
             self.reach.unwrap_or(5),
             self.range
@@ -106,9 +104,8 @@ impl fmt::Display for Ranged {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "{}. {}: {} to hit, range {}, {}. Hit: {} {}. {}",
+            "{}. Ranged %s Attack: {} to hit, range {}, {}. Hit: {} {}. {}",
             self.name,
-            "Ranged %s Attack",
             self.modifier,
             self.range
                 .as_ref()
