@@ -83,12 +83,12 @@ impl Creature {
         }
     }
 
-    pub fn id(&self) -> &str {
-        self.id.as_str()
+    pub fn id(&self) -> &String {
+        &self.id
     }
 
-    pub fn name(&self) -> &str {
-        self.name.as_str()
+    pub fn name(&self) -> &String {
+        &self.name
     }
 
     pub fn creature_type(&self) -> &CreatureType {
