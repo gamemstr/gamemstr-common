@@ -180,8 +180,8 @@ impl Player {
         self.creature.racial_traits()
     }
 
-    pub fn description(&self) -> Option<&str> {
-        self.creature.description()
+    pub fn description(&self) -> Option<String> {
+        self.creature.description().clone()
     }
 
     pub fn actions(&self) -> Option<&Vec<Action>> {
