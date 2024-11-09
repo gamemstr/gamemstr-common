@@ -155,8 +155,8 @@ impl Creature {
         self.racial_traits.as_ref()
     }
 
-    pub fn description(&self) -> Option<&str> {
-        self.description.as_deref()
+    pub fn description(&self) -> Option<String> {
+        self.description.clone()
     }
 
     pub fn actions(&self) -> Option<&Vec<Action>> {
