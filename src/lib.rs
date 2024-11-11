@@ -18,8 +18,9 @@ pub mod item;
 pub mod spell;
 pub mod world;
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone, PartialEq, Default)]
 pub enum DamageType {
+    #[default]
     Slashing,
     Piercing,
     Bludgeoning,

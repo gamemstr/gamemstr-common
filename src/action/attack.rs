@@ -13,6 +13,12 @@ pub enum Attack {
     RangedSpellAttack(Ranged),
 }
 
+impl Default for Attack {
+    fn default() -> Self {
+        Attack::MeleeWeaponAttack(Melee::default())
+    }
+}
+
 impl fmt::Display for Attack {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
@@ -27,7 +33,7 @@ impl fmt::Display for Attack {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
 pub struct Melee {
     pub name: String,
     pub modifier: i32,
@@ -122,8 +128,9 @@ impl fmt::Display for Ranged {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
 pub enum TargetType {
+    #[default]
     OneTarget,
     MultipleTargets(i32),
     Cone(i32),

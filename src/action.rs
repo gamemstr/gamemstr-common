@@ -1,6 +1,7 @@
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
+use strum::EnumIter;
 use uuid::Uuid;
 
 use self::attack::Attack;
@@ -22,7 +23,7 @@ impl Action {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone, PartialEq)]
 pub enum ActionType {
     Attack(Attack),
 }

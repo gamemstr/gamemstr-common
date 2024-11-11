@@ -1,6 +1,7 @@
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
+use strum::EnumIter;
 
 use crate::{action::Action, Alignment, ConditionType, DamageType, Die, DieStat, OtherAttribute};
 
@@ -258,7 +259,7 @@ impl Creature {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, EnumIter, Debug, Clone)]
 pub enum MovementSpeed {
     Walk(u8),
     Swim(u8),
@@ -354,7 +355,7 @@ impl fmt::Display for Skill {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, EnumIter, Debug, Clone)]
 pub enum SkillType {
     Acrobatics,
     AnimalHandling,
@@ -401,7 +402,7 @@ impl fmt::Display for SkillType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum Sense {
     Blindsight(u32),
     Darkvision(u32),
@@ -420,7 +421,7 @@ impl fmt::Display for Sense {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone)]
 pub enum Language {
     Abanasinia,
     Abyssal,
@@ -478,7 +479,7 @@ impl fmt::Display for Language {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone, PartialEq)]
 pub enum CreatureType {
     Monster(MonsterType),
     Player,
@@ -511,7 +512,7 @@ pub struct Paragraph {
     pub bullet: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone, PartialEq, Default)]
 pub enum MonsterType {
     #[default]
     Aberration,
