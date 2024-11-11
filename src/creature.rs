@@ -33,7 +33,7 @@ pub struct Creature {
 impl Creature {
     #[allow(clippy::too_many_arguments)]
     pub fn new(
-        id: String,
+        mut id: String,
         name: String,
         creature_type: CreatureType,
         alignment: Alignment,
@@ -56,7 +56,9 @@ impl Creature {
         lair: Option<Lair>,
         others: Option<Vec<OtherAttribute>>,
     ) -> Self {
-        assert_ne!(id, "", "Creature ID cannot be empty");
+        if id.is_empty() {
+            id = uuid::Uuid::new_v4().to_string();
+        }
         Self {
             id,
             name,
