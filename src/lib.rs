@@ -66,8 +66,9 @@ impl fmt::Display for ConditionType {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
 pub enum Die {
+    #[default]
     D4,
     D6,
     D8,
@@ -101,7 +102,7 @@ impl Die {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
 pub struct DieStat {
     pub die_count: i32,
     pub die_type: Die,
@@ -139,8 +140,9 @@ impl fmt::Display for OtherAttribute {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumIter, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, EnumIter, Clone, PartialEq, Default)]
 pub enum Alignment {
+    #[default]
     AnyAlignment,
     AnyChaotic,
     AnyEvil,

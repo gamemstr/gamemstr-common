@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{action::Action, Alignment, ConditionType, DamageType, Die, DieStat, OtherAttribute};
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Creature {
     id: String,
     name: String,
@@ -265,6 +265,12 @@ pub enum MovementSpeed {
     Climb(u8),
 }
 
+impl Default for MovementSpeed {
+    fn default() -> Self {
+        MovementSpeed::Walk(30)
+    }
+}
+
 impl fmt::Display for MovementSpeed {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
@@ -311,7 +317,7 @@ pub enum StatType {
     Charisma,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Health {
     pub health: DieStat,
 }
@@ -477,6 +483,12 @@ pub enum CreatureType {
     NPC,
 }
 
+impl Default for CreatureType {
+    fn default() -> Self {
+        CreatureType::Monster(MonsterType::default())
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RacialTrait {
     pub name: String,
@@ -497,8 +509,9 @@ pub struct Paragraph {
     pub bullet: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default)]
 pub enum MonsterType {
+    #[default]
     Aberration,
     Beast,
     Celestial,
